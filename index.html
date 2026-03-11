@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StayWoke</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { 
+      margin:0; 
+      padding:0; 
+      box-sizing:border-box; 
+    }
+    :root {
+      --black:    #0d0f1a;
+      --white:    #ffffff;
+      --off-white:#f5f3ef;
+      --gold:     #f72585;
+      --mid:      #161928;
+      --blue:   #a8c4d4;
+      --grey:     #888;
+      --ann-h:    34px;
+      --nav-h:    72px;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Montserrat',sans-serif;
+      background:var(--black);
+      color:var(--white);
+      overflow-x:hidden;
+      cursor:none;
+    }
+    a { text-decoration:none; color:inherit; }
+    img { display:block; width:100%; }
+
+    .cursor {
+      width:10px; height:10px;
+      background:var(--white);
+      border-radius:50%;
+      position:fixed; pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      transition:width .3s,height .3s;
+      mix-blend-mode:difference;
+    }
+    .cursor.hov { width:34px; height:34px; }
+    @media(hover:none){ .cursor{display:none;} body{cursor:auto;} }
+
+    .ann-bar {
+      position:fixed; top:0; left:0; right:0; z-index:1001;
+      height:var(--ann-h);
+      background:var(--black);
+      border-bottom:1px solid var(--mid);
+      display:flex; align-items:center; overflow:hidden;
+    }
+    .ann-track {
+      display:inline-block;
+      white-space:nowrap;
+      animation:marquee 30s linear infinite;
+      font-size:9px; letter-spacing:3.5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500;
+    }
+    @keyframes marquee {
+      from { transform:translateX(100vw); }
+      to   { transform:translateX(-100%); }
+    }
+
+    nav {
+      position:fixed; left:0; right:0; z-index:1000;
+      height:var(--nav-h);
+      top:var(--ann-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 52px;
+      transition:background .45s,top .35s,border-color .45s;
+      border-bottom:1px solid transparent;
+    }
+    nav.stuck {
+      top:0;
+      background:rgba(10,10,10,.97);
+      border-bottom-color:var(--mid);
+      backdrop-filter:blur(18px);
+    }
+
+    .nav-links {
+      display:flex; gap:32px; align-items:center;
+    }
+    .nav-links a {
+      font-size:9.5px; letter-spacing:2.5px; text-transform:uppercase;
+      font-weight:500; opacity:.8; transition:opacity .3s;
+      position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-3px; left:0;
+      width:0; height:1px; background:var(--gold); transition:width .3s;
+    }
+    .nav-links a:hover { 
+      opacity:1; 
+    }
+    .nav-links a:hover::after { width:100%; }
+
+    /* Dropdown */
+    .has-drop { position:relative; }
+    .drop-btn {
+      display:flex; align-items:center; gap:5px;
+      font-size:9.5px; letter-spacing:2.5px; text-transform:uppercase;
+      font-weight:500; opacity:.8; transition:opacity .3s; cursor:none;
+      background:none; border:none; color:var(--white); font-family:'Montserrat',sans-serif;
+    }
+    .drop-btn:hover { opacity:1; }
+    .drop-chevron { width:8px; height:8px; opacity:.4; transition:transform .3s; }
+    .has-drop:hover .drop-chevron { transform:rotate(180deg); }
+    .dropdown {
+      position:absolute; top:calc(100% + 22px); left:0%;
+      transform: translateX(0) translateY(8px);
+      background:rgba(10,10,10,.98);
+      border:1px solid var(--mid);
+      min-width:500px; padding:28px 32px;
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px;
+      opacity:0; pointer-events:none;
+      transition:opacity .3s,transform .3s;
+      backdrop-filter:blur(20px);
+    }
+    .has-drop:hover .dropdown {
+      opacity:1; pointer-events:all; transform: translateX(0) translateY(0);
+    }
+    .drop-col h4 {
+      font-size:8px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-bottom:12px;
+      padding-bottom:8px; border-bottom:1px solid #222;
+    }
+    .drop-col a {
+      display:block; 
+      font-size:9px; 
+      letter-spacing:1.5px; 
+      text-transform:uppercase;
+      color:rgba(255,255,255,.55); 
+      padding:4px 0; 
+      transition:color .2s;
+      font-weight:400;
+    }
+    .drop-col a::after { display:none!important; }
+    .drop-col a:hover { color:var(--white); }
+
+    /* Logo (center) */
+    .nav-logo {
+      position:absolute; left:50%; transform:translateX(-50%);
+    }
+    .nav-logo a {
+      display:flex; align-items:center; gap:12px;
+    }
+    .logo-img {
+        width: 42px;
+        height: 42px;
+        object-fit: contain;
+    }
+    .logo-text-wrap { display:flex; flex-direction:column; }
+    .logo-main {
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px; 
+      letter-spacing:7px; 
+      font-weight:300;
+      text-transform:uppercase; 
+      color:var(--white); white-space:nowrap;
+      line-height:1;
+    }
+    .logo-by {
+      font-size:7px; 
+      letter-spacing:5px; 
+      text-transform:uppercase;
+      color:var(--blue); 
+      font-family:'Montserrat',sans-serif;
+      font-weight:400; 
+      margin-top:3px;
+    }
+
+    /* Right side */
+    .nav-right { display:flex; align-items:center; gap:16px; }
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:none; padding:4px;
+    }
+    .hamburger span {
+      display:block; width:24px; height:1.5px;
+      background:var(--white); transition:.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4.5px,4.5px); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); }
+
+    /* Mobile overlay */
+    .mob-overlay {
+      position:fixed; inset:0; background:var(--black); z-index:998;
+      display:flex; flex-direction:column; justify-content:center;
+      padding:60px 40px;
+      transform:translateX(100%);
+      transition:transform .65s cubic-bezier(.76,0,.24,1);
+    }
+    .mob-overlay.open { transform:translateX(0); }
+    .mob-overlay a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(32px,6vw,46px); font-weight:300; letter-spacing:3px;
+      color: var(--white); border-bottom:1px solid #191919; padding:14px 0;
+      opacity:0; transform:translateX(20px);
+      transition:opacity .4s,transform .4s,color .3s;
+    }
+    .mob-overlay.open a { opacity:1; transform:translateX(0); }
+    .mob-overlay a:hover { color:var(--gold); }
+    .mob-overlay a:nth-child(1){transition-delay:.06s}
+    .mob-overlay a:nth-child(2){transition-delay:.12s}
+    .mob-overlay a:nth-child(3){transition-delay:.18s}
+    .mob-overlay a:nth-child(4){transition-delay:.24s}
+    .mob-overlay a:nth-child(5){transition-delay:.30s}
+
+    /* ==============================
+       HERO SLIDER
+    ============================== */
+    .hero {
+      position:relative; width:100%; height:100vh; overflow:hidden;
+      min-height:500px;
+    }
+    .slide {
+      position:absolute; inset:0; opacity:0;
+      transition:opacity 1.4s cubic-bezier(.4,0,.2,1);
+    }
+    .slide.active { opacity:1; }
+    .slide-bg {
+      position:absolute; inset:0;
+      background-size:cover; background-position:center;
+      transform:scale(1.06); transition:transform 8s ease;
+    }
+    .slide.active .slide-bg { transform:scale(1); }
+    .slide-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to bottom,rgba(0,0,0,.15) 0%,rgba(0,0,0,.04) 30%,rgba(0,0,0,.3) 65%,rgba(0,0,0,.78) 100%);
+    }
+
+    .slide-1 .slide-bg { background-image:url('images/fng.jpg'); }
+    .slide-2 .slide-bg { background-image:url('images/f.jpg'); }
+    .slide-3 .slide-bg { background-image:url('images/pack.jpg'); }
+    .slide-4 .slide-bg { background-image:url('images/girl.jpg'); }
+
+    .slide-content {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:0 clamp(24px,6vw,88px) clamp(60px,8vh,90px);
+      opacity:0; transform:translateY(26px);
+      transition:opacity .9s ease .7s,transform .9s ease .7s;
+    }
+    .slide.active .slide-content { opacity:1; transform:translateY(0); }
+    .slide-tag {
+      display:inline-block; font-size:9px; letter-spacing:5px;
+      text-transform:uppercase; color:var(--blue); font-weight:500; margin-bottom:16px;
+    }
+    .slide-h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(44px,7.5vw,100px); font-weight:300;
+      line-height:1; letter-spacing:2px; margin-bottom:28px;
+      max-width:680px;
+    }
+    .slide-h1 em { font-style:italic; }
+    .hero-cta {
+      display:inline-flex; align-items:center; gap:16px;
+      font-size:9.5px; letter-spacing:4px; text-transform:uppercase;
+      font-weight:600; color:var(--white);
+      border-bottom:1px solid rgba(255,255,255,.35); padding-bottom:6px;
+      transition:color .3s,border-color .3s,gap .3s;
+    }
+    .hero-cta:hover { color:var(--gold); border-color:var(--gold); gap:24px; }
+    .arrow-line {
+      width:28px; height:1px; background:currentColor;
+      position:relative; display:inline-block; flex-shrink:0;
+    }
+    .arrow-line::after {
+      content:''; position:absolute; right:0; top:-3.5px;
+      width:7px; height:7px;
+      border-right:1px solid currentColor; border-top:1px solid currentColor;
+      transform:rotate(45deg);
+    }
+
+    /* Slider UI */
+    .hero-counter {
+      position:absolute; top:50%; left:clamp(20px,4vw,52px);
+      transform:translateY(-50%);
+      writing-mode:vertical-rl;
+      display:flex; align-items:center; gap:12px; z-index:10;
+      font-size:10px; letter-spacing:2.5px; color:rgba(255,255,255,.35);
+    }
+    .hero-counter .cur { color:var(--white); font-weight:600; font-size:13px; }
+    .hero-counter .cline { width:1px; height:36px; background:rgba(255,255,255,.18); }
+
+    .hero-arrows {
+      position:absolute; top:50%; right:clamp(14px,4vw,52px);
+      transform:translateY(-50%);
+      display:flex; flex-direction:column; gap:10px; z-index:10;
+    }
+    .h-arrow {
+      width:44px; height:44px;
+      border:1px solid rgba(255,255,255,.22); background:transparent;
+      color:var(--white); display:flex; align-items:center; justify-content:center;
+      cursor:none; transition:border-color .3s,background .3s;
+      flex-shrink:0;
+    }
+    .h-arrow:hover { border-color:var(--gold); background:rgba(201,169,110,.08); }
+    .h-arrow svg { width:14px; height:14px; }
+
+    .hero-dots {
+      position:absolute; bottom:clamp(24px,5vh,90px); right:clamp(20px,6vw,88px);
+      display:flex; gap:7px; align-items:center; z-index:10;
+    }
+    .h-dot {
+      width:22px; height:1.5px; background:rgba(255,255,255,.3);
+      cursor:none; transition:width .3s,background .3s;
+    }
+    .h-dot.active { width:42px; background:var(--gold); }
+
+    .scroll-hint {
+      position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+      display:flex; flex-direction:column; align-items:center; gap:8px;
+      z-index:10; opacity:0;
+      animation:fadeUp 1s ease 2.2s forwards;
+    }
+    .scroll-hint span { font-size:8px; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,.45); }
+    .scroll-hint-line { width:1px; height:36px; background:rgba(255,255,255,.2); position:relative; overflow:hidden; }
+    .scroll-hint-line::after {
+      content:''; position:absolute; top:-100%; left:0;
+      width:100%; height:100%; background:var(--gold);
+      animation:spulse 1.9s ease infinite;
+    }
+    @keyframes spulse { 0%{top:-100%} 100%{top:100%} }
+    @keyframes fadeUp {
+      from{opacity:0;transform:translateX(-50%) translateY(12px)}
+      to{opacity:1;transform:translateX(-50%) translateY(0)}
+    }
+
+    /* ==============================
+       SECTION SHARED STYLES
+    ============================== */
+    .section-header {
+      text-align:center; padding:clamp(48px,7vw,80px) 24px clamp(28px,4vw,48px);
+    }
+    .section-header .eyebrow {
+      font-size:9px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500; margin-bottom:12px; display:block;
+    }
+    .section-header h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(34px,4.5vw,58px); font-weight:300; letter-spacing:3px;
+      text-transform:uppercase; color:var(--white); line-height:1.1;
+    }
+    .section-header p {
+      margin-top:14px; font-size:11px; letter-spacing:2px;
+      text-transform:uppercase; color:var(--grey); font-weight:400;
+    }
+    .btn-outline {
+      display:inline-flex; align-items:center; gap:12px;
+      font-size:9px; letter-spacing:4px; text-transform:uppercase;
+      font-weight:600; color:var(--white);
+      border:1px solid rgba(255,255,255,.3); padding:14px 28px;
+      transition:background .3s,border-color .3s,color .3s;
+    }
+    .btn-outline:hover {
+      background:var(--gold); border-color:var(--gold); color:var(--black);
+    }
+
+    .products-section { padding:0 clamp(16px,4vw,52px) clamp(48px,6vw,80px); }
+    .products-grid {
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:clamp(12px,2vw,24px);
+    }
+    @media(max-width:1100px){ .products-grid{grid-template-columns:repeat(3,1fr);} }
+    @media(max-width:720px) { .products-grid{grid-template-columns:repeat(2,1fr); gap:12px;} }
+    @media(max-width:400px) { .products-grid{grid-template-columns:1fr;} }
+
+    .product-card {
+      position:relative; overflow:hidden; cursor:none;
+      box-sizing: border-box;
+      border-radius: 45px;
+    }
+    .product-img-wrap {
+      position:relative; overflow:hidden;
+      aspect-ratio:3/4; background:#111;
+    }
+    .product-img-wrap img {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform .7s cubic-bezier(.4,0,.2,1);
+    }
+    .product-card:hover .product-img-wrap img { transform:scale(1.05); }
+
+    .quick-view {
+      position:absolute; bottom:0; left:0; right:0;
+      background:rgba(10,10,10,.88);
+      font-size:8.5px; letter-spacing:3.5px; text-transform:uppercase;
+      font-weight:600; color:var(--white); text-align:center;
+      padding:13px; opacity:0;
+      transform:translateY(100%);
+      transition:opacity .35s,transform .35s;
+    }
+    .product-card:hover .quick-view { opacity:1; transform:translateY(0); }
+
+    .product-colors {
+      position:absolute; top:14px; right:14px;
+      display:flex; flex-direction:column; gap:5px;
+    }
+    .color-dot {
+      width:10px; height: 11px; border-radius:50%;
+      border:1px solid rgba(255,255,255,.3);
+    }
+
+    .product-info { padding:14px 2px 0; }
+    .product-name {
+      font-size:10px; letter-spacing:1.5px; text-transform:uppercase;
+      font-weight:500; color:var(--white); margin-bottom:6px; line-height:1.4;
+    }
+    .product-price {
+      font-family:'Cormorant Garamond',serif;
+      font-size:16px; font-weight:400; color:var(--gold); letter-spacing:1px;
+    }
+    .product-price span {
+      font-size:20px; font-family:'Montserrat',sans-serif;
+      color:#fff; letter-spacing:2px; margin-right:4px;
+    }
+
+    .editorial {
+      display:grid; grid-template-columns:1fr 1fr;
+      gap:clamp(12px,2vw,24px);
+      padding:0 clamp(16px,4vw,52px) clamp(24px,3vw,40px);
+    }
+    @media(max-width:680px){ .editorial{grid-template-columns:1fr;} }
+
+    .editorial-card {
+      position:relative; overflow:hidden; cursor:none;
+      aspect-ratio:4/5;
+    }
+    .editorial-card img {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform .8s cubic-bezier(.4,0,.2,1);
+    }
+    .editorial-card:hover img { transform:scale(1.04); }
+    .editorial-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.05) 55%);
+    }
+    .editorial-content {
+      position:absolute; bottom:0; left:0; right:0;
+      padding:clamp(20px,4vw,40px);
+    }
+    .editorial-tag {
+      font-size:8px; letter-spacing:4px; text-transform:uppercase;
+      color:var(--gold); font-weight:500; margin-bottom:10px; display:block;
+    }
+    .editorial-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(26px,3.5vw,44px); font-weight:300;
+      letter-spacing:2px; color:var(--white); line-height:1.1; margin-bottom:18px;
+    }
+    .editorial-title em { font-style:italic; }
+    .ed-cta {
+      font-size:8.5px; letter-spacing:3.5px; text-transform:uppercase;
+      font-weight:600; color:var(--white);
+      border-bottom:1px solid rgba(255,255,255,.35); padding-bottom:4px;
+      display:inline-block; transition:color .3s,border-color .3s;
+      box-sizing: border-box; border-radius: 25px;
+    }
+    .ed-cta:hover { color:var(--gold); border-color:var(--gold); }
+
+    .marquee-strip {
+      border-top:1px solid var(--mid);
+      border-bottom:1px solid var(--mid);
+      padding:18px 0;
+      overflow:hidden; white-space:nowrap;
+      margin:clamp(32px,5vw,64px) 0;
+    }
+    .marquee-inner {
+      display:inline-block;
+      animation:marquee 22s linear infinite;
+    }
+    .marquee-inner span {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(18px,2.5vw,26px); letter-spacing:6px;
+      text-transform:uppercase; font-style:italic; font-weight:300;
+      color: #fff; padding:0 32px;
+    }
+    .marquee-inner span.dot {
+      color: deeppink; font-size:8px; vertical-align:middle;
+      letter-spacing:0; font-style:normal; font-family:'Montserrat',sans-serif;
+    }
+
+    .explore-section { 
+      padding:0 clamp(16px,4vw,52px) clamp(48px,6vw,80px); 
+      display: flex;
+      flex-direction: column;
+    }
+
+    .fw-banner {
+      position:relative; overflow:hidden; cursor:none;
+      height:clamp(320px,50vw,580px);
+      margin-bottom:clamp(24px,3vw,40px);
+    }
+    .fw-banner img {
+      width:100%; height:100%; object-fit:cover;
+      transition:transform .8s ease;
+    }
+    .fw-banner:hover img { transform:scale(1.03); }
+    .fw-banner-overlay {
+      position:absolute; inset:0;
+      background:linear-gradient(to right,rgba(0,0,0,.65) 0%,rgba(0,0,0,.1) 60%);
+    }
+    .fw-banner-content {
+      position:absolute; top:50%; left:clamp(24px,6vw,72px);
+      transform:translateY(-50%);
+    }
+    .fw-banner-content .eyebrow {
+      font-size:9px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500; margin-bottom:14px; display:block;
+    }
+    .fw-banner-content h2 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,5vw,68px); font-weight:300;
+      letter-spacing:3px; color:var(--white); line-height:1.05;
+      margin-bottom:24px;
+    }
+    .fw-banner-content h2 em { font-style:italic; }
+
+    .newsletter {
+      background:#0f0f0f;
+      border-top:1px solid var(--mid);
+      padding:clamp(48px,7vw,80px) clamp(16px,6vw,80px);
+      text-align:center;
+    }
+    .newsletter .eyebrow {
+      font-size:9px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500; margin-bottom:14px; display:block;
+    }
+    .newsletter h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(28px,3.5vw,46px); font-weight:300;
+      letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;
+    }
+    .newsletter p {
+      font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--grey); margin-bottom:32px; line-height:1.8;
+    }
+    .newsletter-form {
+      display:flex; max-width:480px; margin:0 auto; gap:0;
+    }
+    .newsletter-form input {
+      flex:1; background:transparent; border:1px solid var(--mid);
+      border-right:none; color:var(--white); padding:14px 20px;
+      font-family:'Montserrat',sans-serif; font-size:10px;
+      letter-spacing:2px; text-transform:uppercase; outline:none;
+      transition:border-color .3s;
+    }
+    .newsletter-form input::placeholder { color:rgba(255,255,255,.3); }
+    .newsletter-form input:focus { border-color:var(--gold); }
+    .newsletter-form button {
+      background:var(--gold); border:1px solid var(--gold);
+      color:var(--black); padding:14px 24px;
+      font-family:'Montserrat',sans-serif; font-size:9px;
+      letter-spacing:3px; text-transform:uppercase; font-weight:700;
+      cursor:none; transition:background .3s,color .3s;
+      white-space:nowrap;
+    }
+    .newsletter-form button:hover { background:var(--white); border-color:var(--white); }
+    @media(max-width:480px){
+      .newsletter-form { flex-direction:column; }
+      .newsletter-form input { border-right:1px solid var(--mid); border-bottom:none; }
+      .newsletter-form input:focus { border-color:var(--gold); }
+      .newsletter-form button { padding:14px; }
+    }
+
+    footer {
+      background:var(--black);
+      border-top:1px solid var(--mid);
+      padding:clamp(48px,6vw,72px) clamp(16px,5vw,72px) 24px;
+    }
+    .footer-grid {
+      display:grid;
+      grid-template-columns:1.6fr 1fr 1fr 1fr;
+      gap:clamp(24px,4vw,52px);
+      margin-bottom:48px;
+    }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr; row-gap:36px;} }
+    @media(max-width:480px){ .footer-grid{grid-template-columns:1fr;} }
+
+    .footer-brand .brand-logo {
+      display:flex; align-items:center; gap:10px; margin-bottom:20px;
+    }
+    .footer-brand .brand-logo img {
+      width:32px; height:32px; object-fit:contain; filter:brightness(0) invert(1);
+    }
+    .footer-brand .brand-logo .logo-main { font-size:17px; letter-spacing:5px; }
+    .footer-brand .brand-logo .logo-by { font-size:6.5px; letter-spacing:4px; margin-top:2px; }
+
+    .footer-brand p {
+      font-size:10px; line-height:1.9; color:rgba(255,255,255,.5);
+      letter-spacing:.5px; max-width:280px; margin-bottom:24px;
+    }
+    .footer-social { display:flex; gap:14px; }
+    .social-btn {
+      width:36px; height:36px; border:1px solid var(--mid);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.6); transition:border-color .3s,color .3s;
+    }
+    .social-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .social-btn svg { width:15px; height:15px; }
+
+    .footer-col h5 {
+      font-size:8.5px; letter-spacing:3.5px; text-transform:uppercase;
+      color:var(--blue); font-weight:600; margin-bottom:18px;
+      padding-bottom:8px; border-bottom:1px solid var(--mid);
+    }
+    .footer-col a {
+      display:block; font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase;
+      color:rgba(255,255,255,.5); padding:6px 0; transition:color .3s;
+    }
+    .footer-col a:hover { color:var(--white); }
+
+    .footer-col address {
+      font-style:normal; font-size:9.5px; letter-spacing:1px;
+      color:rgba(255,255,255,.5); line-height:1.9;
+    }
+    .footer-col .hours { margin-top:12px; }
+    .map-link {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:8.5px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-top:14px;
+      border-bottom:1px solid var(--gold); padding-bottom:3px;
+      transition:opacity .3s;
+    }
+    .map-link:hover { opacity:.7; }
+
+    .footer-bottom {
+      border-top:1px solid var(--mid);
+      padding-top:20px;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:12px;
+    }
+    .footer-bottom p {
+      font-size:9px; letter-spacing:2px; text-transform:uppercase;
+      color:rgba(255,255,255,.3);
+    }
+    .footer-bottom a { color:rgba(255,255,255,.3); transition:color .3s; }
+    .footer-bottom a:hover { color:var(--gold); }
+
+    @media(max-width:680px){
+      .hero-counter, .scroll-hint { display:none; }
+    }
+    @media(max-width:900px){
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+    }
+    .product-price.usd {
+        font-size: 23px;
+        color: #fff;
+    }
+    .card-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.card-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity .5s ease;
+}
+.card-slide.active { opacity: 1; }
+
+.card-slide-dots {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 5;
+  opacity: 0;
+  transition: opacity .3s;
+}
+.product-card:hover .card-slide-dots { opacity: 1; }
+
+.sd {
+  width: 18px;
+  height: 1.5px;
+  background: rgba(255,255,255,.4);
+  transition: background .3s, width .3s;
+}
+.sd.active { background: var(--white); width: 28px; }
+
+.whatsapp-btn {
+  position: fixed;
+  bottom: 32px;
+  right: 28px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--black);
+  color: var(--white);
+  padding: 13px 22px 13px 16px;
+  border: 1px solid var(--gold);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 600;
+  box-shadow: 0 4px 32px rgba(0,0,0,.6);
+  transition: background .3s, color .3s, transform .3s, box-shadow .3s;
+  text-decoration: none;
+  cursor: none;
+}
+.whatsapp-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: var(--gold);
+  transition: color .3s;
+}
+.whatsapp-btn span {
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 100px;
+  transition: max-width .4s ease, opacity .4s ease;
+}
+.whatsapp-btn:hover {
+  background: var(--gold);
+  color: var(--black);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 40px rgba(201,169,110,.25);
+}
+.whatsapp-btn:hover svg {
+  color: var(--black);
+}
+
+/* icon only on mobile */
+@media(max-width:600px) {
+  .whatsapp-btn span { max-width:0; opacity:0; }
+  .whatsapp-btn { padding: 13px; }
+}
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<!-- ── ANNOUNCEMENT BAR ── -->
+<div class="ann-bar">
+  <span class="ann-track">
+    New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦300,000 &nbsp;·&nbsp; Shop 38/39, Aaron's Lekki Mall, Admiralty Way, Lagos &nbsp;·&nbsp; Mon–Sat: 10am–8pm &nbsp;·&nbsp; Sunday: 12pm–8pm &nbsp;·&nbsp; New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦200,000 &nbsp;·&nbsp;
+  </span>
+</div>
+
+<!-- ── NAVIGATION ── -->
+<nav id="mainNav">
+  <div class="nav-links">
+    <a href="#">Home</a>
+    <div class="has-drop">
+      <button class="drop-btn">
+        Shop
+        <svg class="drop-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
+      </button>
+      <div class="dropdown">
+        <div class="drop-col">
+          <h4>Men</h4>
+          <a href="#">T-Shirts</a><a href="#">Outer Wear</a>
+          <a href="#">Shirts</a><a href="#">Shorts</a>
+          <a href="#">Pants</a><a href="#">Denim</a>
+        </div>
+        <div class="drop-col">
+          <h4>Women</h4>
+          <a href="#">Gowns</a><a href="#">Tops</a>
+          <a href="#">Shorts</a><a href="#">Skirts</a>
+        </div>
+        <div class="drop-col">
+          <h4>Accessories</h4>
+          <a href="#">Shoulder Bags</a><a href="#">Bags</a>
+          <a href="#">Hats</a><a href="#">Belts</a>
+        </div>
+      </div>
+    </div>
+    <a href="about.html">About</a>
+    <a href="#">FAQ</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- CENTER LOGO -->
+  <div class="nav-logo">
+    <a href="#">
+      <!-- SVG crown/star logo mark -->
+      <img src="your-logo.png" class="logo-img" alt="STAYWOKE"/>
+      <div class="logo-text-wrap">
+        <span class="logo-main">STAYWOKE</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <button class="hamburger" id="hamburgerBtn" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MOBILE MENU ── -->
+<div class="mob-overlay" id="mobMenu">
+  <a href="#" onclick="closeMob()">Home</a>
+  <a href="shop.html" onclick="closeMob()">Shop</a>
+  <a href="about.html" onclick="closeMob()">About</a>
+  <a href="#" onclick="closeMob()">FAQ</a>
+  <a href="contact.html" onclick="closeMob()">Contact</a>
+</div>
+
+<section class="hero" id="hero">
+
+  <div class="hero-counter">
+    <span class="cur" id="curNum">01</span>
+    <span class="cline"></span>
+    <span>04</span>
+  </div>
+
+  <div class="slide slide-1 active">
+    <div class="slide-bg"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <span class="slide-tag">New Collection — 2026</span>
+      <h1 class="slide-h1">Wear the<br><em>Art of Now</em></h1>
+      <a href="#" class="hero-cta">Explore Collection <span class="arrow-line"></span></a>
+    </div>
+  </div>
+
+  <div class="slide slide-2">
+    <div class="slide-bg"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <span class="slide-tag">Women Wear</span>
+      <h1 class="slide-h1">The<br><em>Women's Cut</em></h1>
+      <a href="#" class="hero-cta">Shop Now <span class="arrow-line"></span></a>
+    </div>
+  </div>
+
+  <div class="slide slide-3">
+    <div class="slide-bg"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <span class="slide-tag">Above All</span>
+      <h1 class="slide-h1">Motion<br><em>Branded</em></h1>
+      <a href="#section-header" class="hero-cta">Discover More <span class="arrow-line"></span></a>
+    </div>
+  </div>
+
+  <div class="slide slide-4">
+    <div class="slide-bg"></div>
+    <div class="slide-overlay"></div>
+    <div class="slide-content">
+      <span class="slide-tag">Accessories</span>
+      <h1 class="slide-h1">Detail is<br><em>Culture</em></h1>
+      <a href="shop.html" class="hero-cta">View Accessories <span class="arrow-line"></span></a>
+    </div>
+  </div>
+
+  <div class="hero-arrows">
+    <button class="h-arrow" id="prevSlide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 15l-6-6-6 6"/></svg>
+    </button>
+    <button class="h-arrow" id="nextSlide">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="hero-dots" id="heroDots">
+    <div class="h-dot active" data-i="0"></div>
+    <div class="h-dot" data-i="1"></div>
+    <div class="h-dot" data-i="2"></div>
+    <div class="h-dot" data-i="3"></div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-hint-line"></div>
+  </div>
+
+</section>
+
+<section>
+  <div class="section-header">
+    <span class="eyebrow">Just Dropped</span>
+    <h2>New In</h2>
+    <p>Explore our new collection</p>
+  </div>
+
+  <div class="products-section">
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Dominion Tracksuit Top" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#c0392b"></div>
+            <div class="color-dot" style="background:#87ceeb"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Dominion Tracksuit Top</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>480,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1516826957135-700dedea698c?w=600&q=80&auto=format&fit=crop" alt="HF Dominion Tracksuit Pants" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#c0392b"></div>
+            <div class="color-dot" style="background:#87ceeb"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Dominion Tracksuit Pants</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>480,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80&auto=format&fit=crop" alt="HF Checkered Tee" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Checkered Tee</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>480,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Knitted Jumper" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#2c2c2c"></div>
+            <div class="color-dot" style="background:#e67e22"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Knitted Jumper</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>400,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&q=80&auto=format&fit=crop" alt="HF Disciples Classic Tee" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#e67e22"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Disciples Classic Tee</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>320,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=600&q=80&auto=format&fit=crop" alt="HF Balaclava Rhinestone Hoodie Top" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#27ae60"></div>
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.6)"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Balaclava Rhinestone Hoodie Top</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>560,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&q=80&auto=format&fit=crop" alt="HF Stone Leather Jacket" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.6)"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Stone Leather Jacket</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>1,600,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#f1c40f"></div>
+            <div class="color-dot" style="background:#111"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Embossed Leather Jacket</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>1,600,000</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:clamp(32px,4vw,52px);">
+      <a href="shop.html" class="btn-outline">Shop New In <span class="arrow-line" style="background:currentColor;"></span></a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-strip">
+  <span class="marquee-inner">
+    <span>New Releases</span><span class="dot">✦</span>
+    <span>STAYWOKE</span><span class="dot">✦</span>
+    <span>New Collection</span><span class="dot">✦</span>
+    <span>Lagos / Ekiti, Nigeria</span><span class="dot">✦</span>
+    <span>Exclusive Pieces</span><span class="dot">✦</span>
+    <span>New Releases</span><span class="dot">✦</span>
+    <span>STAYWOKE</span><span class="dot">✦</span>
+    <span>New Collection</span><span class="dot">✦</span>
+    <span>Lagos / Ekiti, Nigeria</span><span class="dot">✦</span>
+    <span>Exclusive Pieces</span><span class="dot">✦</span>
+  </span>
+</div>
+
+<div class="editorial">
+  <div class="editorial-card">
+    <img src="images/favour.jpg" alt="New Releases" loading="lazy"/>
+    <div class="editorial-overlay"></div>
+    <div class="editorial-content">
+      <span class="editorial-tag">Just Arrived</span>
+      <h3 class="editorial-title">New<br><em>Releases</em></h3>
+      <a href="shop.html" class="ed-cta">Explore Now</a>
+    </div>
+  </div>
+  <div class="editorial-card">
+    <img src="images/bagss.jpg" alt="From Our New Collection" loading="lazy"/>
+    <div class="editorial-overlay"></div>
+    <div class="editorial-content">
+      <span class="editorial-tag">SS 2026</span>
+      <h3 class="editorial-title">From Our New<br><em>Collection</em></h3>
+      <a href="shop.html" class="ed-cta">Explore Now</a>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="section-header">
+    <span class="eyebrow">The Full Edit</span>
+    <h2>Explore More Products</h2>
+  </div>
+
+  <div class="explore-section">
+    <div class="products-grid">
+
+        <div class="product-card">
+  <div class="product-img-wrap">
+    <div class="card-slides">
+      <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide active" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide" loading="lazy"/>
+    </div>
+    <div class="card-slide-dots">
+      <span class="sd active"></span>
+      <span class="sd"></span>
+      <span class="sd"></span>
+    </div>
+    <div class="quick-view">Quick View</div>
+    <div class="product-colors">
+      <div class="color-dot" style="background:#c0392b"></div>
+      <div class="color-dot" style="background:#8e44ad"></div>
+      <div class="color-dot" style="background:#111"></div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="product-name">HF Reflective Tee</div>
+    <div class="product-price usd"><span>$</span>230.84</div>
+    <div class="product-price"><span>₦</span>320,000</div>
+  </div>
+</div>
+
+      <div class="product-card">
+  <div class="product-img-wrap">
+    <div class="card-slides">
+      <img src="https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide active" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&q=80&auto=format&fit=crop" alt="HF Reflective Tee" class="card-slide" loading="lazy"/>
+    </div>
+    <div class="card-slide-dots">
+      <span class="sd active"></span>
+      <span class="sd"></span>
+      <span class="sd"></span>
+    </div>
+    <div class="quick-view">Quick View</div>
+    <div class="product-colors">
+      <div class="color-dot" style="background:#c0392b"></div>
+      <div class="color-dot" style="background:#8e44ad"></div>
+      <div class="color-dot" style="background:#111"></div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="product-name">HF Reflective Tee</div>
+    <div class="product-price usd"><span>$</span>230.84</div>
+    <div class="product-price"><span>₦</span>320,000</div>
+  </div>
+</div>
+
+      <div class="product-card">
+  <div class="product-img-wrap">
+    <div class="card-slides">
+      <img src="https://images.unsplash.com/photo-1594938298603-c8148c4b4e23?w=600&q=80&auto=format&fit=crop" alt="HF Croc Leather Top" class="card-slide active" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=600&q=80&auto=format&fit=crop" alt="HF Croc Leather Top" class="card-slide" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&q=80&auto=format&fit=crop" alt="HF Croc Leather Top" class="card-slide" loading="lazy"/>
+    </div>
+    <div class="card-slide-dots">
+      <span class="sd active"></span>
+      <span class="sd"></span>
+      <span class="sd"></span>
+    </div>
+    <div class="quick-view">Quick View</div>
+  </div>
+  <div class="product-info">
+    <div class="product-name">HF Croc Leather Top</div>
+    <div class="product-price usd"><span>$</span>230.84</div>
+    <div class="product-price"><span>₦</span>1,200,000</div>
+  </div>
+</div>
+
+      <div class="product-card">
+  <div class="product-img-wrap">
+    <div class="card-slides">
+      <img src="https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=600&q=80&auto=format&fit=crop" alt="HF Longsleeve Polo" class="card-slide active" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80&auto=format&fit=crop" alt="HF Longsleeve Polo" class="card-slide" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80&auto=format&fit=crop" alt="HF Longsleeve Polo" class="card-slide" loading="lazy"/>
+    </div>
+    <div class="card-slide-dots">
+      <span class="sd active"></span>
+      <span class="sd"></span>
+      <span class="sd"></span>
+    </div>
+    <div class="quick-view">Quick View</div>
+    <div class="product-colors">
+      <div class="color-dot" style="background:#111"></div>
+      <div class="color-dot" style="background:#c0392b"></div>
+      <div class="color-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.6)"></div>
+      <div class="color-dot" style="background:#e67e22"></div>
+    </div>
+  </div>
+  <div class="product-info">
+    <div class="product-name">HF Longsleeve Polo</div>
+    <div class="product-price usd"><span>$</span>230.84</div>
+    <div class="product-price"><span>₦</span>560,000</div>
+  </div>
+</div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=600&q=80&auto=format&fit=crop" alt="HF Shortsleeve Polo" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#c0392b"></div>
+            <div class="color-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.6)"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Shortsleeve Polo</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>480,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&q=80&auto=format&fit=crop" alt="HF Mesh Longsleeve" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#111"></div>
+            <div class="color-dot" style="background:#e67e22"></div>
+            <div class="color-dot" style="background:#c0392b"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Mesh Longsleeve</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>320,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80&auto=format&fit=crop" alt="HF Croc Leather Pants" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Croc Leather Pants</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>1,200,000</div>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-img-wrap">
+          <img src="https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=600&q=80&auto=format&fit=crop" alt="HF Rhinestone Denim" loading="lazy"/>
+          <div class="quick-view">Quick View</div>
+          <div class="product-colors">
+            <div class="color-dot" style="background:#2980b9"></div>
+            <div class="color-dot" style="background:#111"></div>
+          </div>
+        </div>
+        <div class="product-info">
+          <div class="product-name">HF Rhinestone Denim Jacket</div>
+          <div class="product-price usd"><span>$</span>230.84</div>
+          <div class="product-price"><span>₦</span>960,000</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div style="text-align:center;margin-top:clamp(32px,4vw,52px);">
+      <a href="shop.html" class="btn-outline">Shop All Products <span class="arrow-line" style="background:currentColor;"></span></a>
+    </div>
+  </div>
+</section>
+
+<div style="padding:clamp(32px,4vw,64px) clamp(16px,4vw,52px) 0;">
+  <div class="fw-banner">
+    <img src="images/weird.jpg" alt="New Releases" loading="lazy"/>
+    <div class="fw-banner-overlay"></div>
+    <div class="fw-banner-content">
+      <span class="eyebrow">SS 2025</span>
+      <h2>New<br><em>Releases</em></h2>
+      <a href="shop.html" class="btn-outline" style="font-size:8.5px;">Explore Now</a>
+    </div>
+  </div>
+  <div class="fw-banner" style="margin-top:clamp(12px,2vw,24px);">
+    <img src="images/back.jpg" alt="From Our New Collection" loading="lazy"/>
+    <div class="fw-banner-overlay"></div>
+    <div class="fw-banner-content">
+      <span class="eyebrow">The New Collection</span>
+      <h2>From Our New<br><em>Collection</em></h2>
+      <a href="shop.html" class="btn-outline" style="font-size:8.5px;">Explore Now</a>
+    </div>
+  </div>
+</div>
+
+<div class="newsletter">
+  <span class="eyebrow">Stay Connected</span>
+  <h3>Get 10% Off Your Next Order</h3>
+  <p>By signing up, you agree to receive emails about StayWoke<br>and our other terms.</p>
+  <div class="newsletter-form">
+    <input type="email" placeholder="Your Email Address"/>
+    <button type="button">Subscribe</button>
+  </div>
+</div>
+<footer>
+  <div class="footer-grid">
+
+    <div class="footer-brand">
+      <div class="brand-logo">
+        <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;flex-shrink:0;">
+          <polygon points="50,8 61,38 93,38 68,57 77,88 50,70 23,88 32,57 7,38 39,38" fill="white" opacity="0.9"/>
+          <polygon points="50,22 57,42 78,42 62,54 68,74 50,62 32,74 38,54 22,42 43,42" fill="#0a0a0a"/>
+          <circle cx="50" cy="50" r="6" fill="white" opacity="0.7"/>
+        </svg>
+        <div class="logo-text-wrap">
+          <span class="logo-main">StayWoke</span>
+        </div>
+      </div>
+      <p>At StayWoke, we believe that fashion is an expression of individuality and artistry.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/highfashion_jol/" class="social-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="#">FAQ</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <a href="shop.html">Shop All</a>
+      <a href="#">Men</a>
+      <a href="#">Women</a>
+      <a href="#">Accessories</a>
+      <a href="#">New In</a>
+    </div>
+
+    <div class="footer-col">
+      <h5>Visit Us</h5>
+      <address>
+        Shop 38/39, Aaron's Lekki Mall,<br>
+        Admiralty Way,<br>
+        Lagos, Nigeria.
+        <div class="hours">
+          Mon – Sat: 10am – 8pm<br>
+          Sunday: 12pm – 8pm
+        </div>
+      </address>
+      <a href="https://www.google.com/maps/dir//Shop+38%2F39,+Aaron%E2%80%99s+Lekki+Mall" class="map-link" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <p>© 2026 StayWoke All Rights Reserved.</p>
+  </div>
+</footer> 
+<a href="https://wa.me/2348000000000" class="whatsapp-btn" target="_blank" rel="noopener" title="Chat with us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.833L.057 23.077a.75.75 0 00.916.919l5.42-1.425A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 01-4.953-1.355l-.355-.212-3.688.968.984-3.595-.231-.369A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+  </svg>
+  <span>Chat with us</span>
+</a>
+<script>
+  /* Cursor */
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a,button,.h-dot,.h-arrow,.product-card').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hov'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hov'));
+  });
+
+  /* Nav */
+  const nav = document.getElementById('mainNav');
+  const annH = document.querySelector('.ann-bar').offsetHeight;
+  nav.style.top = annH + 'px';
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('stuck', window.scrollY > 10);
+  });
+
+  /* Mobile menu */
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobMenu   = document.getElementById('mobMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMob() {
+    mobMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* Slider */
+  const slides = document.querySelectorAll('.slide');
+  const dots   = document.querySelectorAll('.h-dot');
+  const numEl  = document.getElementById('curNum');
+  let cur = 0, timer;
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = ((n % slides.length) + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+    numEl.textContent = String(cur + 1).padStart(2, '0');
+  }
+  function startTimer() { timer = setInterval(() => goTo(cur + 1), 6500); }
+  function resetTimer() { clearInterval(timer); startTimer(); }
+
+  document.getElementById('nextSlide').addEventListener('click', () => { goTo(cur + 1); resetTimer(); });
+  document.getElementById('prevSlide').addEventListener('click', () => { goTo(cur - 1); resetTimer(); });
+  dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
+
+  /* Swipe */
+  let tx = 0;
+  const heroEl = document.getElementById('hero');
+  heroEl.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, {passive:true});
+  heroEl.addEventListener('touchend',   e => {
+    const d = tx - e.changedTouches[0].screenX;
+    if (Math.abs(d) > 50) { goTo(d > 0 ? cur + 1 : cur - 1); resetTimer(); }
+  }, {passive:true});
+
+  startTimer();
+
+  /* Newsletter button */
+  document.querySelector('.newsletter-form button').addEventListener('click', function() {
+    const inp = this.previousElementSibling;
+    if (inp.value && inp.value.includes('@')) {
+      this.textContent = 'Subscribed ✓';
+      this.style.background = '#27ae60';
+      inp.value = '';
+    } else {
+      inp.style.borderColor = '#c0392b';
+      setTimeout(() => inp.style.borderColor = '', 1500);
+    }
+  });
+  document.querySelectorAll('.product-img-wrap').forEach(card => {
+  const slides = card.querySelectorAll('.card-slide');
+  const dots   = card.querySelectorAll('.sd');
+  if (slides.length < 2) return;
+
+  let cur = 0, timer;
+
+  function goTo(n) {
+    slides[cur].classList.remove('active');
+    dots[cur].classList.remove('active');
+    cur = (n + slides.length) % slides.length;
+    slides[cur].classList.add('active');
+    dots[cur].classList.add('active');
+  }
+
+  card.addEventListener('mouseenter', () => {
+    timer = setInterval(() => goTo(cur + 1), 500);
+  });
+  card.addEventListener('mouseleave', () => {
+    clearInterval(timer);
+    goTo(0);
+  });
+
+  card.addEventListener('click', e => {
+    if (!e.target.closest('.quick-view')) goTo(cur + 1);
+  });
+});
+</script>
+
+</body>
+</html>
