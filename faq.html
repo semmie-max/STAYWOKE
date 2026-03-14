@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FAQs — StayWoke</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --black:    #0d0f1a;
+      --white:    #ffffff;
+      --off-white:#f5f3ef;
+      --gold:     #f72585;
+      --mid:      #161928;
+      --blue:   #a8c4d4;
+      --grey:     #888;
+      --ann-h:    34px;
+      --nav-h:    72px;
+    }
+    html { scroll-behavior:smooth; }
+    body {
+      font-family:'Montserrat',sans-serif;
+      background:var(--black); color:var(--white);
+      overflow-x:hidden; cursor:none;
+    }
+    a { text-decoration:none; color:inherit; }
+    img { display:block; width:100%; }
+
+    /*── CURSOR ──*/
+    .cursor {
+      width:10px; height:10px; background:var(--white);
+      border-radius:50%; position:fixed; pointer-events:none;
+      z-index:9999; transform:translate(-50%,-50%);
+      transition:width .3s,height .3s; mix-blend-mode:difference;
+    }
+    .cursor.hov { width:32px; height:32px; }
+    @media(hover:none){ .cursor{display:none;} body{cursor:auto;} }
+
+    /*── ANNOUNCEMENT BAR ──*/
+    .ann-bar {
+      position:fixed; top:0; left:0; right:0; z-index:1001;
+      height:var(--ann-h); background:var(--black);
+      border-bottom:1px solid var(--mid);
+      display:flex; align-items:center; overflow:hidden;
+    }
+    .ann-track {
+      display:inline-block; white-space:nowrap;
+      animation:marquee 30s linear infinite;
+      font-size:9px; letter-spacing:3.5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500;
+    }
+    @keyframes marquee { from{transform:translateX(100vw)} to{transform:translateX(-100%)} }
+
+    /*── NAV ──*/
+    nav {
+      position:fixed; left:0; right:0; z-index:1000;
+      height:var(--nav-h); top:var(--ann-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 52px;
+      background:rgba(10,10,10,.97);
+      border-bottom:1px solid var(--mid);
+      backdrop-filter:blur(18px);
+      transition:top .35s;
+    }
+    nav.stuck { top:0; }
+    .nav-links { display:flex; gap:32px; align-items:center; }
+    .nav-links a {
+      font-size:9.5px; letter-spacing:2.5px; text-transform:uppercase;
+      font-weight:500; opacity:.8; transition:opacity .3s; position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-3px; left:0;
+      width:0; height:1px; background:var(--gold); transition:width .3s;
+    }
+    .nav-links a:hover { opacity:1; }
+    .nav-links a:hover::after { width:100%; }
+    .has-drop { position:relative; }
+    .drop-btn {
+      display:flex; align-items:center; gap:5px;
+      font-size:9.5px; letter-spacing:2.5px; text-transform:uppercase;
+      font-weight:500; opacity:.8; transition:opacity .3s; cursor:none;
+      background:none; border:none; color:var(--white); font-family:'Montserrat',sans-serif;
+    }
+    .drop-btn:hover { opacity:1; }
+    .drop-chevron { width:8px; height:8px; opacity:.4; transition:transform .3s; }
+    .has-drop:hover .drop-chevron { transform:rotate(180deg); }
+    .dropdown {
+      position:absolute; top:calc(100% + 22px); left:0;
+      transform:translateX(0) translateY(8px);
+      background:rgba(10,10,10,.98); border:1px solid var(--mid);
+      min-width:500px; padding:28px 32px;
+      display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px;
+      opacity:0; pointer-events:none;
+      transition:opacity .3s,transform .3s; backdrop-filter:blur(20px);
+    }
+    .has-drop:hover .dropdown { opacity:1; pointer-events:all; transform:translateX(0) translateY(0); }
+    .drop-col h4 {
+      font-size:8px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-bottom:12px;
+      padding-bottom:8px; border-bottom:1px solid #222;
+    }
+    .drop-col a {
+      display:block; font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+      color:rgba(255,255,255,.55); padding:4px 0; transition:color .2s;
+    }
+    .drop-col a::after { display:none!important; }
+    .drop-col a:hover { color:var(--white); }
+    .nav-logo { position:absolute; left:50%; transform:translateX(-50%); }
+    .nav-logo a { display:flex; align-items:center; gap:12px; }
+    .logo-img { width:38px; height:38px; object-fit:contain; }
+    .logo-text-wrap { display:flex; flex-direction:column; }
+    .logo-main {
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px; letter-spacing:7px; font-weight:300;
+      text-transform:uppercase; color:var(--white); white-space:nowrap; line-height:1;
+    }
+    .logo-by {
+      font-size:7px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-family:'Montserrat',sans-serif; font-weight:400; margin-top:3px;
+    }
+    .nav-right { display:flex; align-items:center; }
+    .hamburger {
+      display:none; flex-direction:column; gap:5px;
+      background:none; border:none; cursor:none; padding:4px;
+    }
+    .hamburger span { display:block; width:24px; height:1.5px; background:var(--white); transition:.3s; }
+    .hamburger.open span:nth-child(1) { transform:rotate(45deg) translate(4.5px,4.5px); }
+    .hamburger.open span:nth-child(2) { opacity:0; }
+    .hamburger.open span:nth-child(3) { transform:rotate(-45deg) translate(4.5px,-4.5px); }
+    .mob-overlay {
+      position:fixed; inset:0; background:var(--black); z-index:998;
+      display:flex; flex-direction:column; justify-content:center;
+      padding:60px 40px; transform:translateX(100%);
+      transition:transform .65s cubic-bezier(.76,0,.24,1);
+    }
+    .mob-overlay.open { transform:translateX(0); }
+    .mob-overlay a {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(32px,6vw,46px); font-weight:300; letter-spacing:3px;
+      color:var(--white); border-bottom:1px solid #191919; padding:14px 0;
+      opacity:0; transform:translateX(20px);
+      transition:opacity .4s,transform .4s,color .3s;
+    }
+    .mob-overlay.open a { opacity:1; transform:translateX(0); }
+    .mob-overlay a:hover { color:var(--gold); }
+    .mob-overlay a:nth-child(1){transition-delay:.06s}
+    .mob-overlay a:nth-child(2){transition-delay:.12s}
+    .mob-overlay a:nth-child(3){transition-delay:.18s}
+    .mob-overlay a:nth-child(4){transition-delay:.24s}
+    .mob-overlay a:nth-child(5){transition-delay:.30s}
+    @media(max-width:900px){
+      nav { padding:0 20px; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+    }
+
+    /*── PAGE TOP ──*/
+    .page-top { height:calc(var(--ann-h) + var(--nav-h)); }
+
+    /*── PAGE HERO ──*/
+    .page-hero {
+      padding:clamp(52px,8vw,100px) clamp(16px,4vw,52px) clamp(40px,5vw,64px);
+      border-bottom:1px solid var(--mid);
+      position:relative; overflow:hidden; text-align:center;
+    }
+    .page-hero::before {
+      content:'FAQ';
+      position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(80px,18vw,220px); font-weight:300;
+      color:rgba(255,255,255,.03); letter-spacing:12px;
+      text-transform:uppercase; pointer-events:none; white-space:nowrap;
+    }
+    .page-hero .eyebrow {
+      font-size:9px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-bottom:16px; display:block;
+    }
+    .page-hero h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(36px,6vw,80px); font-weight:300;
+      letter-spacing:5px; text-transform:uppercase; line-height:1.1;
+    }
+    .page-hero h1 em { font-style:italic; color:var(--gold); }
+    .page-hero p {
+      font-size:10.5px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--grey); margin-top:16px; line-height:1.9; max-width:480px; margin-inline:auto;
+    }
+
+    /*── MAIN LAYOUT ──*/
+    .faq-layout {
+      display:grid;
+      grid-template-columns:240px 1fr;
+      gap:0;
+      align-items:start;
+    }
+    @media(max-width:760px){ .faq-layout{ grid-template-columns:1fr; } }
+
+    /*── STICKY SIDEBAR ──*/
+    .faq-sidebar {
+      position:sticky; top:calc(var(--nav-h) + 20px);
+      padding:clamp(32px,4vw,52px) clamp(20px,3vw,36px);
+      border-right:1px solid var(--mid);
+    }
+    @media(max-width:760px){ .faq-sidebar{ position:static; border-right:none; border-bottom:1px solid var(--mid); padding:24px 16px; } }
+
+    .sidebar-label {
+      font-size:8px; letter-spacing:4px; text-transform:uppercase;
+      color:var(--grey); font-weight:500; margin-bottom:20px; display:block;
+    }
+    .sidebar-nav { display:flex; flex-direction:column; gap:4px; }
+    @media(max-width:760px){ .sidebar-nav{ flex-direction:row; flex-wrap:wrap; gap:8px; } }
+
+    .sidebar-link {
+      font-size:9px; letter-spacing:2px; text-transform:uppercase;
+      color:rgba(255,255,255,.45); padding:8px 0;
+      border-bottom:1px solid transparent;
+      transition:color .2s,border-color .2s; cursor:none;
+      background:none; border-top:none; border-left:none; border-right:none;
+      font-family:'Montserrat',sans-serif; font-weight:500;
+      text-align:left;
+    }
+    .sidebar-link:hover { color:var(--white); }
+    .sidebar-link.active { color:var(--gold); border-bottom-color:var(--gold); }
+    @media(max-width:760px){
+      .sidebar-link { border:1px solid var(--mid); padding:7px 12px; }
+      .sidebar-link.active { border-color:var(--gold); }
+    }
+
+    /*── FAQ CONTENT ──*/
+    .faq-content { padding:0; }
+
+    /*── SECTION ──*/
+    .faq-section {
+      border-bottom:1px solid var(--mid);
+    }
+    .section-header {
+      padding:clamp(28px,4vw,48px) clamp(24px,4vw,52px) clamp(20px,3vw,32px);
+      border-bottom:1px solid var(--mid);
+      display:flex; align-items:center; gap:16px;
+    }
+    .section-num {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(32px,4vw,52px); font-weight:300;
+      color:rgba(201,169,110,.2); letter-spacing:2px; line-height:1; flex-shrink:0;
+    }
+    .section-title {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(22px,3vw,36px); font-weight:300;
+      letter-spacing:4px; text-transform:uppercase;
+    }
+    .section-title em { font-style:italic; color:var(--gold); }
+
+    /*── ACCORDION ITEM ──*/
+    .acc-item { border-bottom:1px solid var(--mid); }
+    .acc-item:last-child { border-bottom:none; }
+
+    .acc-trigger {
+      width:100%;
+      display:flex; align-items:center; justify-content:space-between; gap:20px;
+      padding:clamp(18px,2.5vw,24px) clamp(24px,4vw,52px);
+      background:none; border:none; color:var(--white);
+      font-family:'Montserrat',sans-serif;
+      font-size:clamp(9.5px,1.2vw,11px); letter-spacing:1.5px;
+      font-weight:500; text-transform:uppercase;
+      cursor:none; text-align:left;
+      transition:background .2s;
+    }
+    .acc-trigger:hover { background:rgba(255,255,255,.02); }
+    .acc-trigger.open { color:var(--gold); }
+
+    .acc-icon {
+      width:28px; height:28px; border:1px solid var(--mid);
+      display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; transition:border-color .3s,background .3s;
+    }
+    .acc-trigger.open .acc-icon { border-color:var(--gold); background:rgba(201,169,110,.08); }
+    .acc-icon svg { width:11px; height:11px; transition:transform .35s; }
+    .acc-trigger.open .acc-icon svg { transform:rotate(45deg); }
+
+    .acc-body {
+      max-height:0; overflow:hidden;
+      transition:max-height .45s cubic-bezier(.4,0,.2,1);
+    }
+    .acc-body-inner {
+      padding:0 clamp(24px,4vw,52px) clamp(20px,3vw,28px);
+      font-size:11.5px; line-height:2; color:rgba(255,255,255,.55);
+      letter-spacing:.3px;
+    }
+    .acc-body-inner strong {
+      color:var(--white); font-weight:600;
+    }
+    .acc-body-inner p { margin-bottom:12px; }
+    .acc-body-inner p:last-child { margin-bottom:0; }
+
+    /*── CONTACT CTA ──*/
+    .contact-cta {
+      padding:clamp(48px,6vw,72px) clamp(24px,4vw,52px);
+      border-top:1px solid var(--mid);
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:24px; background:#0d0d0d;
+    }
+    .cta-text .eyebrow {
+      font-size:8px; letter-spacing:4px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-bottom:10px; display:block;
+    }
+    .cta-text h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(22px,3vw,36px); font-weight:300;
+      letter-spacing:3px; text-transform:uppercase;
+    }
+    .cta-text h3 em { font-style:italic; }
+    .cta-text p {
+      font-size:10px; color:var(--grey); letter-spacing:1.5px;
+      text-transform:uppercase; margin-top:8px; line-height:1.8;
+    }
+    .cta-btns { display:flex; gap:12px; flex-wrap:wrap; }
+    .btn-gold {
+      font-size:9px; letter-spacing:3.5px; text-transform:uppercase;
+      font-weight:700; padding:14px 32px;
+      background:var(--gold); color:var(--black);
+      border:1px solid var(--gold); font-family:'Montserrat',sans-serif;
+      cursor:none; transition:background .3s,color .3s,border-color .3s;
+    }
+    .btn-gold:hover { background:var(--white); border-color:var(--white); }
+    .btn-outline {
+      font-size:9px; letter-spacing:3.5px; text-transform:uppercase;
+      font-weight:600; padding:14px 32px;
+      background:transparent; color:var(--white);
+      border:1px solid rgba(255,255,255,.2); font-family:'Montserrat',sans-serif;
+      cursor:none; transition:border-color .3s;
+    }
+    .btn-outline:hover { border-color:var(--white); }
+
+    /*── NEWSLETTER ──*/
+    .newsletter {
+      background:#0f0f0f; border-top:1px solid var(--mid);
+      padding:clamp(48px,7vw,80px) clamp(16px,6vw,80px); text-align:center;
+    }
+    .newsletter .eyebrow {
+      font-size:9px; letter-spacing:5px; text-transform:uppercase;
+      color:var(--gold); font-weight:500; margin-bottom:14px; display:block;
+    }
+    .newsletter h3 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(26px,3.5vw,44px); font-weight:300;
+      letter-spacing:3px; text-transform:uppercase; margin-bottom:8px;
+    }
+    .newsletter p {
+      font-size:10px; letter-spacing:2px; text-transform:uppercase;
+      color:var(--grey); margin-bottom:32px; line-height:1.8;
+    }
+    .nform { display:flex; max-width:480px; margin:0 auto; }
+    .nform input {
+      flex:1; background:transparent; border:1px solid var(--mid); border-right:none;
+      color:var(--white); padding:14px 20px;
+      font-family:'Montserrat',sans-serif; font-size:10px;
+      letter-spacing:2px; text-transform:uppercase; outline:none; transition:border-color .3s;
+    }
+    .nform input::placeholder { color:rgba(255,255,255,.3); }
+    .nform input:focus { border-color:var(--gold); }
+    .nform button {
+      background:var(--gold); border:1px solid var(--gold);
+      color:var(--black); padding:14px 24px;
+      font-family:'Montserrat',sans-serif; font-size:9px; letter-spacing:3px;
+      text-transform:uppercase; font-weight:700; cursor:none; white-space:nowrap;
+    }
+    .nform button:hover { background:var(--white); border-color:var(--white); }
+    @media(max-width:480px){
+      .nform{flex-direction:column;}
+      .nform input{border-right:1px solid var(--mid);border-bottom:none;}
+    }
+
+    footer {
+      background:var(--black); border-top:1px solid var(--mid);
+      padding:clamp(48px,6vw,72px) clamp(16px,5vw,72px) 24px;
+    }
+    .footer-grid {
+      display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr;
+      gap:clamp(24px,4vw,52px); margin-bottom:48px;
+    }
+    @media(max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr;row-gap:36px;} }
+    @media(max-width:480px){ .footer-grid{grid-template-columns:1fr;} }
+    .footer-brand .brand-logo { display:flex; align-items:center; gap:10px; margin-bottom:20px; }
+    .footer-brand .brand-logo .logo-main { font-size:17px; letter-spacing:5px; }
+    .footer-brand .brand-logo .logo-by { font-size:6.5px; letter-spacing:4px; margin-top:2px; }
+    .footer-brand p { font-size:10px; line-height:1.9; color:rgba(255,255,255,.5); max-width:280px; margin-bottom:24px; }
+    .footer-social { display:flex; gap:14px; }
+    .social-btn {
+      width:36px; height:36px; border:1px solid var(--mid);
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(255,255,255,.6); transition:border-color .3s,color .3s;
+    }
+    .social-btn:hover { border-color:var(--gold); color:var(--gold); }
+    .social-btn svg { width:15px; height:15px; }
+    .footer-col h5 {
+      font-size:8.5px; letter-spacing:3.5px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-bottom:18px;
+      padding-bottom:8px; border-bottom:1px solid var(--mid);
+    }
+    .footer-col a {
+      display:block; font-size:9.5px; letter-spacing:1.5px; text-transform:uppercase;
+      color:rgba(255,255,255,.5); padding:6px 0; transition:color .3s;
+    }
+    .footer-col a:hover { color:var(--white); }
+    .footer-col address {
+      font-style:normal; font-size:9.5px; letter-spacing:1px;
+      color:rgba(255,255,255,.5); line-height:1.9;
+    }
+    .map-link {
+      display:inline-flex; align-items:center; gap:8px;
+      font-size:8.5px; letter-spacing:3px; text-transform:uppercase;
+      color:var(--gold); font-weight:600; margin-top:14px;
+      border-bottom:1px solid var(--gold); padding-bottom:3px; transition:opacity .3s;
+    }
+    .map-link:hover { opacity:.7; }
+    .footer-bottom {
+      border-top:1px solid var(--mid); padding-top:20px;
+      display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    }
+    .footer-bottom p { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.3); }
+    .footer-bottom a { color:rgba(255,255,255,.3); transition:color .3s; }
+    .footer-bottom a:hover { color:var(--gold); }
+
+    .whatsapp-btn {
+      position:fixed; bottom:32px; right:28px; z-index:999;
+      display:flex; align-items:center; gap:10px;
+      background:var(--black); color:var(--white);
+      padding:13px 22px 13px 16px;
+      border:1px solid var(--gold);
+      font-family:'Montserrat',sans-serif; font-size:8px;
+      letter-spacing:3px; text-transform:uppercase; font-weight:600;
+      box-shadow:0 4px 32px rgba(0,0,0,.6);
+      transition:background .3s,color .3s,transform .3s,box-shadow .3s;
+      text-decoration:none; cursor:none;
+    }
+    .whatsapp-btn svg { 
+        width:16px; 
+        height:16px; 
+        flex-shrink:0; 
+        color:var(--gold); 
+        transition:color .3s; 
+    }
+    .whatsapp-btn span { 
+        white-space:nowrap; 
+        overflow:hidden; 
+        max-width:100px; 
+        transition:max-width .4s,opacity .4s; 
+    }
+    .whatsapp-btn:hover { 
+        background:var(--gold); 
+        color:var(--black); 
+        transform:translateY(-3px); 
+        box-shadow:0 8px 40px rgba(201,169,110,.25); 
+    }
+    .whatsapp-btn:hover svg { color:var(--black); }
+    @media(max-width:600px){
+      .whatsapp-btn span { max-width:0; opacity:0; }
+      .whatsapp-btn { padding:13px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<div class="ann-bar">
+  <span class="ann-track">
+    New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦200,000 &nbsp;·&nbsp; Lagos / Ekiti &nbsp;·&nbsp; Mon–Sat: 10am–10pm &nbsp;·&nbsp; Sunday: 12pm–10pm &nbsp;·&nbsp;
+  </span>
+</div>
+
+<nav id="mainNav">
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <div class="has-drop">
+      <button class="drop-btn">
+        Shop
+        <svg class="drop-chevron" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
+      </button>
+      <div class="dropdown">
+        <div class="drop-col">
+          <h4>Men</h4>
+          <a href="shop.html">Shirts</a>
+        </div>
+        <div class="drop-col">
+          <h4>Women</h4>
+          <a href="shop.html">Tops</a>
+        </div>
+        <div class="drop-col">
+          <h4>Accessories</h4>
+          <a href="shop.html">Hats</a>
+        </div>
+      </div>
+    </div>
+    <a href="about.html">About</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="nav-logo">
+    <a href="index.html">
+          <img src="images/logo.jpg" class="logo-img" alt="STAYWOKE"/>
+          <div class="logo-text-wrap">
+        <span class="logo-main">StayWoke</span>
+      </div>
+    </a>
+  </div>
+
+  <div class="nav-right">
+    <button class="hamburger" id="hamburgerBtn">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mob-overlay" id="mobMenu">
+  <a href="index.html"  onclick="closeMob()">Home</a>
+  <a href="shop.html"   onclick="closeMob()">Shop</a>
+  <a href="about.html"  onclick="closeMob()">About</a>
+  <a href="faq.html"    onclick="closeMob()">FAQ</a>
+  <a href="contact.html" onclick="closeMob()">Contact</a>
+</div>
+
+<div class="page-top"></div>
+
+<div class="page-hero">
+  <span class="eyebrow">Everything You Need to Know</span>
+  <h1>Frequently Asked <em>Questions</em></h1>
+  <p>Find answers to our most common questions below. Can't find what you're looking for? Contact us directly.</p>
+</div>
+
+<div class="faq-layout">
+
+  <div class="faq-sidebar">
+    <span class="sidebar-label">Jump to</span>
+    <div class="sidebar-nav">
+      <button class="sidebar-link active" onclick="scrollTo('sec-faqs', this)">FAQs</button>
+      <button class="sidebar-link" onclick="scrollTo('sec-policies', this)">Policies</button>
+    </div>
+  </div>
+
+  <div class="faq-content">
+    <div class="faq-section" id="sec-faqs">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Frequently Asked <em>Questions.</em></h2>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          What is StayWoke known for?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>StayWoke is known for its luxurious and fashionable clothing and accessories. We strive to make sure that all of our products are of the highest quality and are designed with comfort and style in mind. Our products are designed with the modern customer in mind, providing them with a range of chic and timeless pieces, with every product having a story to tell.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Where can I buy STAYWOKE products?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>StayWoke products can be purchased on our website, our social media platforms.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Do you offer international shipping?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Yes, we do offer international shipping for our products. Please refer to our website for a full list of countries we ship to and the associated shipping costs.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          How can I find the right size for my clothing?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>We have different sizes of clothing, ranging from medium to extra large. Please refer to our size guide for more information.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          What payment methods do you accept?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>We accept various payment methods, including debit cards, bank transfer, cryptocurrency and secure online payment options. The available payment methods will be displayed during the checkout process.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Are there any sustainable practices at StayWoke?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Yes, we are committed to sustainability and implementing sustainable practices in our business. We use only sustainable materials and processes in our production, and we are committed to reducing our carbon footprint.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          How can I stay updated on new collections and promotions?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>The best way to stay updated on our new collections and promotions is to sign up for our newsletter. You can also follow us on our social media channels for the latest updates.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          What are your opening hours?
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Our store is open seven days a week to serve you. We are open from Monday to Sunday for 24hrs,. We look forward to seeing you soon!</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="faq-section" id="sec-policies">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title"><em>Policies</em></h2>
+      </div>
+
+
+      <div class="acc-item" id="sec-delivery">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Delivery
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>We provide prompt and efficient delivery services for our valued customers:</p>
+            <p><strong>Within Ekiti, Nigeria:</strong> Enjoy same-day delivery for orders within Ekiti. Place your order before 4PM to avail of this service.</p>
+            <p><strong>Outside Lagos:</strong> Expect your order to arrive within 3–4 working days for destinations outside Lagos but within Nigeria.</p>
+            <p><strong>International Shipping:</strong> For international orders outside Nigeria, it takes up to 10-15 working days for delivery.</p>
+            <p>Please note that delivery times may vary due to unforeseen circumstances, customs processes, or extreme weather conditions. We will provide you with a tracking number to keep you informed of your shipment's status. Charges may apply for orders outside Nigeria</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="sec-privacy">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Privacy Policy
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>We respect your privacy and are committed to protecting your personal information. Our privacy policy outlines how we collect, use, and safeguard your data. Rest assured that any information you provide will be handled with the utmost confidentiality and used solely for the purpose of enhancing your shopping experience.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Terms and Conditions
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Our terms and conditions govern the use of our website and the interactions between StayWoke and its customers. By accessing and using our website, you agree to comply with these terms, including intellectual property rights, product availability, and liability limitations.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item" id="sec-care">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Size Guide and Styling Tips
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>To ensure the perfect fit, refer to our size guide for comprehensive measurements. Additionally, explore our styling tips and outfit ideas to effortlessly elevate your look.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Authenticity Assurance
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Our products are 100% authentic and crafted with utmost care. Every piece bears the hallmark of StayWoke superior craftsmanship. We are committed to sustainable practices and ethical sourcing, encompassing eco-friendly materials, responsible manufacturing, and supporting fair labour standards.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          Customer Care
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Our customer care team is here to assist you with any queries or assistance you may require. Contact us via phone, email and social media platforms, and we'll be delighted to help.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="acc-item">
+        <button class="acc-trigger" onclick="toggle(this)">
+          StayWoke Family Benefits
+          <span class="acc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+        </button>
+        <div class="acc-body">
+          <div class="acc-body-inner">
+            <p>Join our exclusive family for access to exclusive perks, early collection previews, special promotions, features on our family page on our social media platforms and invitations to exclusive events.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="contact-cta">
+  <div class="cta-text">
+    <span class="eyebrow">Still Have Questions?</span>
+    <h3>We're Here to <em>Help</em></h3>
+    <p>Reach out via our contact form or chat with us on WhatsApp.</p>
+  </div>
+  <div class="cta-btns">
+    <a href="contact.html" class="btn-gold">Contact Us</a>
+    <a href="https://wa.me/2349120211548" target="_blank" rel="noopener" class="btn-outline">WhatsApp</a>
+  </div>
+</div>
+
+<div class="newsletter">
+  <span class="eyebrow">Stay Connected</span>
+  <h3>Get 10% Off Your Next Order</h3>
+  <p>By signing up, you agree to receive emails about StayWoke and our other terms.</p>
+  <div class="nform">
+    <input type="email" placeholder="Email" id="emailInp"/>
+    <button onclick="handleSub()">Subscribe</button>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="brand-logo">
+          <img src="images/logo.jpg" class="logo-img" alt="STAYWOKE"/>
+        <div class="logo-text-wrap">
+          <span class="logo-main">StayWoke</span>
+        </div>
+      </div>
+      <p>At StayWoke, we believe that fashion is an expression of individuality and artistry.</p>
+      <div class="footer-social">
+        <a href="https://www.instagram.com/highfashion_jol/" class="social-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@staywoke_luxury" class="social-btn" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 3v10.5a3.5 3.5 0 1 1-3-3.45" />
+            <path d="M14 3c1.2 2.2 3.2 3.5 5 3.5v3c-1.8 0-3.4-.6-5-1.8" />
+          </svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Quick Links</h5>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="faq.html">FAQ</a>
+    </div>
+    <div class="footer-col">
+      <h5>Shop</h5>
+      <a href="shop.html">Shop All</a>
+      <a href="shop.html">Men</a>
+      <a href="shop.html">Women</a>
+      <a href="shop.html">Accessories</a>
+    </div>
+    <div class="footer-col">
+      <h5>Visit Us</h5>
+      <address>
+        Ekiti / Lagos State<br>Nigeria.
+        <div style="margin-top:10px;">Mon–Sun: 24hrs</div>
+      </address>
+      <a href="https://www.google.com/maps/place/Ekiti+State,+Nigeria" class="map-link" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2023 StayWoke All Rights Reserved.</p>
+  </div>
+</footer>
+
+<a href="https://wa.me/2349120211548?text=Hi%20Stay%20Woke" class="whatsapp-btn" target="_blank" rel="noopener">
+  <svg viewBox="0 0 24 24" fill="currentColor">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.833L.057 23.077a.75.75 0 00.916.919l5.42-1.425A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 01-4.953-1.355l-.355-.212-3.688.968.984-3.595-.231-.369A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+  </svg>
+  <span>Chat with us</span>
+</a>
+
+<script>
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', e => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a,button').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hov'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hov'));
+  });
+
+  /* Nav scroll */
+  const nav = document.getElementById('mainNav');
+  window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 10));
+
+  /* Mobile menu */
+  const hamburger = document.getElementById('hamburgerBtn');
+  const mobMenu   = document.getElementById('mobMenu');
+  hamburger.addEventListener('click', () => {
+    const open = mobMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMob() {
+    mobMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* Accordion toggle */
+  function toggle(btn) {
+    const body    = btn.nextElementSibling;
+    const isOpen  = btn.classList.contains('open');
+
+    /* close all */
+    document.querySelectorAll('.acc-trigger.open').forEach(b => {
+      b.classList.remove('open');
+      b.nextElementSibling.style.maxHeight = '0';
+    });
+
+    /* open clicked if it was closed */
+    if (!isOpen) {
+      btn.classList.add('open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  }
+
+  /* Sidebar scroll */
+  function scrollTo(id, btn) {
+    document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const el = document.getElementById(id);
+    if (el) {
+      const offset = el.getBoundingClientRect().top + window.scrollY - 100;
+      window.scrollTo({ top: offset, behavior: 'smooth' });
+    }
+  }
+
+  /* Update sidebar active on scroll */
+  const sections = ['sec-faqs','sec-policies'];
+  window.addEventListener('scroll', () => {
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom > 120) {
+        document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
+        const idx = sections.indexOf(id);
+        const links = document.querySelectorAll('.sidebar-link');
+        if (links[idx]) links[idx].classList.add('active');
+      }
+    });
+  });
+
+  /* Newsletter */
+  function handleSub() {
+    const inp = document.getElementById('emailInp');
+    const btn = inp.nextElementSibling;
+    if (inp.value && inp.value.includes('@')) {
+      btn.textContent = 'Subscribed ✓';
+      btn.style.background = '#27ae60';
+      inp.value = '';
+    } else {
+      inp.style.borderColor = '#c0392b';
+      setTimeout(() => inp.style.borderColor = '', 1500);
+    }
+  }
+</script>
+</body>
+</html>
