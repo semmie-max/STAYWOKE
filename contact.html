@@ -764,43 +764,58 @@
     document.body.style.overflow = '';
   }
 
-  function handleSubmit() {
-    const name    = document.getElementById('fname').value.trim();
-    const email   = document.getElementById('femail').value.trim();
-    const phone   = document.getElementById('fphone').value.trim();
-    const comment = document.getElementById('fcomment').value.trim();
+  async function handleSubmit() {
+  const name    = document.getElementById('fname').value.trim();
+  const email   = document.getElementById('femail').value.trim();
+  const phone   = document.getElementById('fphone').value.trim();
+  const comment = document.getElementById('fcomment').value.trim();
 
-    if (!name || !email || !comment) {
-
-      if (!name)    document.getElementById('fname').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
-      if (!email)   document.getElementById('femail').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
-      if (!comment) document.getElementById('fcomment').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
-      setTimeout(() => {
-        document.querySelectorAll('.field').forEach(f => f.style.borderBottomColor = '');
-      }, 2000);
-      return;
-    }
-
-    const btn = document.getElementById('submitBtn');
-    btn.textContent = 'Sending...';
-    btn.style.opacity = '.6';
-    btn.style.pointerEvents = 'none';
-
+  if (!name || !email || !comment) {
+    if (!name)    document.getElementById('fname').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
+    if (!email)   document.getElementById('femail').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
+    if (!comment) document.getElementById('fcomment').parentElement.style.borderBottomColor = 'rgba(192,57,43,.6)';
     setTimeout(() => {
-      document.getElementById('contactFormArea').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-    }, 900);
+      document.querySelectorAll('.field').forEach(f => f.style.borderBottomColor = '');
+    }, 2000);
+    return;
   }
 
-  const obs = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('vis'), i * 80);
-        obs.unobserve(e.target);
-      }
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = 'Sending...';
+  btn.style.opacity = '.6';
+  btn.style.pointerEvents = 'none';
+
+  try {
+    const response = await fetch('https://formspree.io/f/mwvrnvlp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, phone, comment })
     });
-  }, { threshold: 0.08 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    if (response.ok) {
+      document.getElementById('contactFormArea').style.display = 'none';
+      document.getElementById('successMsg').style.display = 'block';
+    } else {
+      btn.textContent = 'Failed — Try Again';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    }
+  } catch (err) {
+    btn.textContent = 'Failed — Try Again';
+    btn.style.opacity = '1';
+    btn.style.pointerEvents = 'auto';
+  }
+}
+
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('vis'), i * 80);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 </body>
 </html>
