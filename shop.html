@@ -583,6 +583,24 @@
 .collection-header {
   overflow: visible;
 }
+
+.page-transition {
+  position:fixed; inset:0; background:#0d0f1a;
+  display:flex; align-items:center; justify-content:center;
+  z-index:99998; opacity:0; pointer-events:none;
+  transition:opacity 0.5s ease;
+}
+.page-transition.active { opacity:1; pointer-events:all; }
+.pt-logo {
+  width:80px; height:80px; object-fit:contain; border-radius:50%;
+  animation:ptSpin 1s linear infinite;
+  opacity:0; transition:opacity 0.3s ease;
+}
+.page-transition.active .pt-logo { opacity:1; }
+@keyframes ptSpin {
+  from { transform:rotate(0deg); }
+  to   { transform:rotate(360deg); }
+}
   </style>
 </head>
 <body>
@@ -995,6 +1013,10 @@
   </div>
 </footer>
 
+
+  <div class="page-transition" id="pageTransition">
+  <img src="images/logo.jpg" class="pt-logo" id="ptLogo" alt="StayWoke"/>
+</div>
 <script>
   
   const cursor = document.getElementById('cursor');
@@ -1183,6 +1205,32 @@
     if (!e.target.closest('.quick-view') && !e.target.closest('.wish-btn')) goTo(cur + 1);
   });
 });
+
+/* Page transitions */
+(function(){
+  const pt   = document.getElementById('pageTransition');
+
+  /* fade in on page load */
+  document.body.style.opacity = '0';
+  document.body.style.transition = 'opacity 0.5s ease';
+  setTimeout(() => { document.body.style.opacity = '1'; }, 50);
+
+  /* intercept all internal links */
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (!href) return;
+    if (href.startsWith('http') || href.startsWith('mailto') || href.startsWith('tel') || href.startsWith('https://wa.me') || href.startsWith('#')) return;
+
+    e.preventDefault();
+    pt.classList.add('active');
+
+    setTimeout(() => {
+      window.location.href = href;
+    }, 500);
+  });
+})();
 </script>
 </body>
 </html>
