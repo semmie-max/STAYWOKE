@@ -85,7 +85,7 @@
     .drop-chevron { width:8px; height:8px; opacity:.4; transition:transform .3s; }
     .has-drop:hover .drop-chevron { transform:rotate(180deg); }
     .dropdown {
-      position:absolute; top:calc(100% + 22px); left:50%;
+      position:absolute; top:calc(100% + 0px); left:50%;
       transform:translateX(-50%) translateY(8px);
       background:rgba(10,10,10,.98); border:1px solid var(--mid);
       min-width:500px; padding:28px 32px;
@@ -93,7 +93,7 @@
       opacity:0; pointer-events:none;
       transition:opacity .3s,transform .3s; backdrop-filter:blur(20px);
     }
-    .has-drop:hover .dropdown { opacity:1; pointer-events:all; transform:translateX(-50%) translateY(0); }
+    .has-drop:hover .dropdown { opacity:1; pointer-events:all; transform: translateX(0) translateY(0); }
     .drop-col h4 {
       font-size:8px; letter-spacing:3px; text-transform:uppercase;
       color:var(--gold); font-weight:600; margin-bottom:12px;
@@ -464,6 +464,217 @@
     .footer-bottom p { font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,.3); }
     .footer-bottom a { color:rgba(255,255,255,.3); transition:color .3s; }
     .footer-bottom a:hover { color:var(--gold); }
+
+    .related-wrap {
+  padding:clamp(48px,6vw,80px) clamp(16px,4vw,52px);
+  border-top:1px solid var(--mid);
+}
+.related-header {
+  text-align:center; margin-bottom:clamp(32px,4vw,48px);
+}
+.related-eyebrow {
+  font-size:9px; letter-spacing:5px; text-transform:uppercase;
+  color:var(--gold); font-weight:500; margin-bottom:12px; display:block;
+}
+.related-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,3.5vw,46px); font-weight:300;
+  letter-spacing:3px; text-transform:uppercase;
+}
+.related-title em { font-style:italic; color:var(--gold); }
+.related-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:clamp(10px,1.5vw,20px);
+}
+@media(max-width:900px){ .related-grid{ grid-template-columns:repeat(3,1fr); } }
+@media(max-width:600px){ .related-grid{ grid-template-columns:repeat(2,1fr); } }
+.related-card { cursor:none; }
+.related-card-img {
+  aspect-ratio:3/4; overflow:hidden;
+  background:#111; position:relative; margin-bottom:10px;
+}
+.related-card-img img {
+  width:100%; height:100%; object-fit:cover;
+  transition:transform .6s ease;
+}
+.related-card:hover .related-card-img img { transform:scale(1.05); }
+.related-card-name {
+  font-size:9px; letter-spacing:1.5px; text-transform:uppercase;
+  font-weight:500; margin-bottom:5px;
+}
+.related-card-price {
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px; color:var(--gold); letter-spacing:1px;
+}
+.related-card-price .sym {
+  font-size:10px; font-family:'Montserrat',sans-serif;
+  color:var(--grey); margin-right:1px;
+}
+.related-view {
+  display:block; text-align:center;
+  margin-top:8px; padding:8px 0;
+  border:1px solid rgba(255,255,255,.2);
+  font-size:8.5px; letter-spacing:3px; text-transform:uppercase;
+  font-weight:600; color:var(--white);
+  transition:background .3s,border-color .3s,color .3s;
+}
+.related-view:hover {
+  background:var(--gold); border-color:var(--gold); color:var(--black);
+}
+
+.qty-wrap {
+  display:flex; align-items:center; gap:0;
+  border:1px solid var(--mid); width:fit-content;
+}
+.qty-btn {
+  width:40px; height:40px;
+  background:transparent; border:none;
+  color:var(--white); font-size:18px;
+  font-family:'Montserrat',sans-serif;
+  cursor:none; transition:background .2s,color .2s;
+  display:flex; align-items:center; justify-content:center;
+}
+.qty-btn:hover { background:var(--gold); color:var(--black); }
+.qty-num {
+  width:48px; text-align:center;
+  font-size:12px; letter-spacing:2px;
+  border-left:1px solid var(--mid);
+  border-right:1px solid var(--mid);
+  padding:10px 0; color:var(--white);
+}
+
+/* Add more button */
+.add-more-wrap { margin-top:10px; }
+.add-more-btn {
+  width:100%; padding:14px 24px;
+  background:transparent; border:1px solid rgba(255,255,255,.2);
+  color:var(--white); font-family:'Montserrat',sans-serif;
+  font-size:9px; letter-spacing:4px; text-transform:uppercase;
+  font-weight:600; cursor:none;
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  transition:border-color .3s,color .3s;
+}
+.add-more-btn:hover { border-color:var(--gold); color:var(--gold); }
+
+/* Overlay */
+.drawer-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,.6);
+  z-index:1100; opacity:0; pointer-events:none;
+  transition:opacity .4s;
+}
+.drawer-overlay.open { opacity:1; pointer-events:all; }
+
+/* Drawer */
+.drawer {
+  position:fixed; top:0; right:0; bottom:0;
+  width:min(480px,95vw); background:var(--black);
+  border-left:1px solid var(--mid); z-index:1101;
+  transform:translateX(100%);
+  transition:transform .55s cubic-bezier(.76,0,.24,1);
+  display:flex; flex-direction:column; overflow:hidden;
+}
+.drawer.open { transform:translateX(0); }
+
+.drawer-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:24px 24px 20px; border-bottom:1px solid var(--mid); flex-shrink:0;
+}
+.drawer-title {
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px; font-weight:300; letter-spacing:3px; text-transform:uppercase;
+}
+.drawer-title em { font-style:italic; color:var(--gold); }
+.drawer-close {
+  background:none; border:1px solid var(--mid); width:36px; height:36px;
+  display:flex; align-items:center; justify-content:center;
+  color:rgba(255,255,255,.6); cursor:none; transition:border-color .2s,color .2s;
+}
+.drawer-close:hover { border-color:var(--gold); color:var(--gold); }
+
+/* Product grid inside drawer */
+.drawer-grid {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:12px; padding:20px; overflow-y:auto; flex:1;
+}
+.drawer-card {
+  cursor:none; border:1px solid transparent;
+  transition:border-color .2s;
+}
+.drawer-card:hover { border-color:var(--mid); }
+.drawer-card-img {
+  aspect-ratio:3/4; overflow:hidden; background:#111; margin-bottom:8px;
+}
+.drawer-card-img img { width:100%; height:100%; object-fit:cover; }
+.drawer-card-name {
+  font-size:8px; letter-spacing:1.5px; text-transform:uppercase;
+  font-weight:500; margin-bottom:4px; line-height:1.4;
+}
+.drawer-card-price {
+  font-family:'Cormorant Garamond',serif;
+  font-size:14px; color:var(--gold);
+}
+.drawer-card-price .sym {
+  font-size:9px; font-family:'Montserrat',sans-serif; color:var(--grey);
+}
+
+/* Size picker inside drawer */
+.drawer-sizes {
+  display:flex; flex-wrap:wrap; gap:4px; margin-top:6px;
+}
+.drawer-size {
+  font-size:7.5px; letter-spacing:1px; text-transform:uppercase;
+  padding:4px 7px; border:1px solid var(--mid);
+  background:transparent; color:rgba(255,255,255,.5);
+  cursor:none; font-family:'Montserrat',sans-serif;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.drawer-size:hover { border-color:rgba(255,255,255,.3); color:var(--white); }
+.drawer-size.picked { border-color:var(--gold); color:var(--white); background:rgba(201,169,110,.08); }
+
+.drawer-add-btn {
+  width:100%; margin-top:8px; padding:8px;
+  background:var(--gold); border:none; color:var(--black);
+  font-family:'Montserrat',sans-serif; font-size:8px;
+  letter-spacing:2.5px; text-transform:uppercase; font-weight:700;
+  cursor:none; transition:background .2s;
+  display:none;
+}
+.drawer-add-btn:hover { background:var(--white); }
+.drawer-add-btn.show { display:block; }
+
+/* Footer */
+.drawer-footer {
+  border-top:1px solid var(--mid); padding:20px 24px; flex-shrink:0;
+  background:#0d0d0d;
+}
+.drawer-order-list { margin-bottom:14px; }
+.drawer-order-item {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:9px; letter-spacing:1px; text-transform:uppercase;
+  color:rgba(255,255,255,.6); padding:6px 0;
+  border-bottom:1px solid #1a1a1a;
+}
+.drawer-order-item:last-child { border-bottom:none; }
+.drawer-order-item .remove-item {
+  background:none; border:none; color:var(--grey);
+  font-size:14px; cursor:none; transition:color .2s; padding:0 4px;
+}
+.drawer-order-item .remove-item:hover { color:#c0392b; }
+.drawer-total {
+  font-size:10px; letter-spacing:2px; text-transform:uppercase;
+  color:var(--white); margin-bottom:14px; text-align:right;
+}
+.drawer-total strong { color:var(--gold); font-size:16px; font-family:'Cormorant Garamond',serif; }
+.drawer-send-btn {
+  width:100%; padding:15px 24px;
+  background:var(--gold); border:1px solid var(--gold); color:var(--black);
+  font-family:'Montserrat',sans-serif; font-size:9px;
+  letter-spacing:3px; text-transform:uppercase; font-weight:700;
+  cursor:none; display:flex; align-items:center; justify-content:center; gap:10px;
+  transition:background .3s,border-color .3s;
+}
+.drawer-send-btn:hover { background:var(--white); border-color:var(--white); }
   </style>
 </head>
 <body>
@@ -559,14 +770,50 @@
     <div class="option-block">
       <div class="option-label">Size: <strong id="selectedSize">—</strong></div>
       <div class="size-grid" id="sizeGrid"></div>
-      <button class="sizing-guide">Sizing Guide</button>
     </div>
+
+<div class="option-block">
+  <div class="option-label">Quantity: <strong id="selectedQty">1</strong></div>
+  <div class="qty-wrap">
+    <button class="qty-btn" id="qtyMinus">−</button>
+    <span class="qty-num" id="qtyNum">1</span>
+    <button class="qty-btn" id="qtyPlus">+</button>
+  </div>
+</div>
 
     <div class="atc-wrap">
-      <button class="atc-btn" id="atcBtn">Add to Cart</button>
+      <button class="atc-btn" id="atcBtn">Buy Now</button>
     </div>
 
-    <!-- SHARE -->
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">Add More <em>Items</em></div>
+    <button class="drawer-close" onclick="closeDrawer()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="18" height="18"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="drawer-grid" id="drawerGrid"></div>
+  <div class="drawer-footer" id="drawerFooter" style="display:none;">
+    <div class="drawer-order-list" id="drawerOrderList"></div>
+    <div class="drawer-total">Total: <strong id="drawerTotal">₦0</strong></div>
+    <button class="drawer-send-btn" id="drawerSendBtn">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="flex-shrink:0;">
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.117.549 4.107 1.51 5.833L.057 23.077a.75.75 0 00.916.919l5.42-1.425A11.952 11.952 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.726 9.726 0 01-4.953-1.355l-.355-.212-3.688.968.984-3.595-.231-.369A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>
+      </svg>
+      Send Order
+    </button>
+  </div>
+</div>
+
+<div class="add-more-wrap">
+  <button class="add-more-btn" onclick="openDrawer()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="14" height="14"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    Add More Items
+  </button>
+</div>
+
     <div class="share-row">
       Share:
       <button class="share-btn" title="Copy link" onclick="copyLink()">
@@ -583,7 +830,6 @@
       </button>
     </div>
 
-    <!-- ACCORDION -->
     <div class="accordion-wrap">
       <div class="accordion-item">
         <button class="accordion-trigger" data-acc="materials">
@@ -603,7 +849,7 @@
         </button>
         <div class="accordion-body" id="acc-shipping">
           <div class="accordion-body-inner">
-            Orders are dispatched within 1–3 business days. Free delivery on orders above ₦200,000 within Lagos. We do not currently offer free returns for international orders — customers are responsible for return shipping costs. Please mark returned packages clearly and use a tracked service.
+            Orders are dispatched on the same day within Ekiti State Nigeria (To avail of this service, place your orders before 4pm). For orders outside Ekiti, it takes 2-4 working days.  Free delivery on orders above ₦300,000. We do not offer returns for orders less than 300,000, customers are responsible for return shipping costs. Please mark returned packages clearly and use a tracked service.
           </div>
         </div>
       </div>
@@ -623,7 +869,15 @@
   </div>
 </div>
 
-<!-- FAQ SECTION -->
+<div class="related-wrap">
+  <div class="related-header">
+    <span class="related-eyebrow">You Might Also Like</span>
+    <h2 class="related-title">Related <em>Products</em></h2>
+  </div>
+  <div class="related-grid" id="relatedGrid"></div>
+</div>
+
+
 <div class="faq-section">
   <div class="faq-header">
     <span class="eyebrow">Got Questions?</span>
@@ -638,7 +892,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
       <div class="faq-body">
-        <p>We accept payments via bank transfers and cash.</p>
+        <p>We accept different payment methods. Bank transfers, cash, debit cards, cryptocurrency and even secure online payment option.</p>
       </div>
     </div>
 
@@ -664,21 +918,11 @@
 
     <div class="faq-item">
       <button class="faq-trigger">
-        Do you offer e-gift cards internationally?
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </button>
-      <div class="faq-body">
-        <p>E-gift cards are currently available only to customers shipping within Nigeria. International gift card options are coming soon.</p>
-      </div>
-    </div>
-
-    <div class="faq-item">
-      <button class="faq-trigger">
         When will my order be delivered?
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
       <div class="faq-body">
-        <p>Orders are usually dispatched within 1–3 business days. Contact us if your delivery has not arrived within the expected timeframe.</p>
+        <p>Orders are usually dispatched within 1–4 business days, varies by location. Contact us if your delivery has not arrived within the expected timeframe.</p>
       </div>
     </div>
 
@@ -688,13 +932,13 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
       </button>
       <div class="faq-body">
-        <p>We do not offer free returns for international customers. Mark your package "returned goods" and use a registered trackable service. We do not accept responsibility for items that fail to arrive.</p>
+        <p>We do not offer free returns. Mark your package "returned goods" and use a registered trackable service. We do not accept responsibility for items that fail to arrive.</p>
       </div>
     </div>
 
   </div>
 </div>
-<!-- FOOTER -->
+
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -740,7 +984,6 @@
     <p>© 2023 StayWoke. All Rights Reserved.</p>
   </div>
 </footer>
-
 <script>
 
 const PRODUCTS = {
@@ -748,6 +991,7 @@ const PRODUCTS = {
     name: 'no days off tee',
     priceNgn: '40,000',
     priceUsd: '$40',
+    colors: ['White'],
     sizes: ['S','M','L','XL','2XL','3XL'],
     soldOut: ['2XL'],
     images: [
@@ -770,8 +1014,8 @@ const PRODUCTS = {
   },
   'ST Tank Tops': {
     name: 'ST Tank Tops',
-    priceNgn: '17,000',
-    priceUsd: '$20',
+    priceNgn: '20,000',
+    priceUsd: '$17',
     colors: ['Black',],
     sizes: ['S','M','L','XL','2XL','3XL'],
     soldOut: ['3XL'],
@@ -780,68 +1024,56 @@ const PRODUCTS = {
       'images/ttop.jpg',
     ]
   },
-  'hf-dominion-tracksuit-pants': {
-    name: 'HF Dominion Tracksuit Pants',
-    priceNgn: '480,000',
-    priceUsd: '$320',
-    colors: ['Black', 'Red', 'Light Blue'],
+  'ST black tee': {
+    name: 'ST black tee',
+    priceNgn: '40,000',
+    priceUsd: '$30',
+    colors: ['white',],
     sizes: ['S','M','L','XL','2XL','3XL'],
     soldOut: [],
     images: [
-      'https://images.unsplash.com/photo-1516826957135-700dedea698c?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1609873814058-a8928924184a?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=900&q=85&auto=format&fit=crop',
+      'images/brown.jpg',
+      'images/backofbrown.jpg',
     ]
   },
-  'hf-stone-leather-jacket': {
-    name: 'HF Stone Leather Jacket',
-    priceNgn: '1,600,000',
-    priceUsd: '$1,065',
-    colors: ['Black', 'White'],
+  'st white tee': {
+    name: 'st white tee',
+    priceNgn: '40,000',
+    priceUsd: '$30',
+    colors: ['Black',],
     sizes: ['S','M','L','XL','2XL'],
     soldOut: [],
     images: [
-      'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1551537482-f2075a1d41f2?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1566206091558-7f218b696731?w=900&q=85&auto=format&fit=crop',
+      'images/blue.jpg',
+      'images/blueback.jpg',
     ]
   },
-  'hf-embossed-leather-jacket': {
-    name: 'HF Embossed Leather Jacket',
-    priceNgn: '1,600,000',
-    priceUsd: '$1,065',
-    colors: ['Yellow', 'Black'],
+  'ST Blackred Tee': {
+    name: 'ST Blackred Tee',
+    priceNgn: '40,000',
+    priceUsd: '$30',
+    colors: ['Black'],
     sizes: ['S','M','L','XL','2XL'],
-    soldOut: ['S'],
+    soldOut: [],
     images: [
-      'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1566206091558-7f218b696731?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=85&auto=format&fit=crop',
+      'images/red.jpg',
+      'images/redback.jpg',
     ]
   },
-  'hf-longsleeve-polo': {
-    name: 'HF Longsleeve Polo',
-    priceNgn: '560,000',
-    priceUsd: '$375',
-    colors: ['Black', 'Red', 'White', 'Orange'],
+  'ST white2tee': {
+    name: 'ST white2tee',
+    priceNgn: '40,000',
+    priceUsd: '$30',
+    colors: ['White',],
     sizes: ['S','M','L','XL','2XL','3XL'],
     soldOut: [],
     images: [
-      'https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1544441893-675973e31985?w=900&q=85&auto=format&fit=crop',
+      'images/wine.jpg',
+      'images/wineback.jpg',
     ]
   },
-  'hf-croc-leather-top': {
-    name: 'HF Croc Leather Top',
+  'ST Trucker Hat': {
+    name: 'ST Trucker Hat',
     priceNgn: '1,200,000',
     priceUsd: '$800',
     colors: ['Black'],
@@ -870,53 +1102,7 @@ const PRODUCTS = {
       'https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=900&q=85&auto=format&fit=crop',
     ]
   },
-  'hf-rhinestone-denim-top': {
-    name: 'HF Rhinestone Denim Top — Longsleeve',
-    priceNgn: '2,400,000',
-    priceUsd: '$1,600',
-    colors: ['Dark Blue', 'Light Blue', 'Black'],
-    sizes: ['S','M','L','XL','2XL'],
-    soldOut: [],
-    images: [
-      'https://images.unsplash.com/photo-1525507119028-ed4c629a60a3?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1582552938357-32b906df40cb?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1566206091558-7f218b696731?w=900&q=85&auto=format&fit=crop',
-    ]
-  },
-  'hf-leather-bucket-hat': {
-    name: 'HF Leather Bucket Hat',
-    priceNgn: '160,000',
-    priceUsd: '$107',
-    colors: ['Black', 'White', 'Brown', 'Orange'],
-    sizes: ['S/M', 'L/XL'],
-    soldOut: [],
-    images: [
-      'https://images.unsplash.com/photo-1521369909029-2afed882baee?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1534215754734-18e55d13e346?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1544441893-675973e31985?w=900&q=85&auto=format&fit=crop',
-    ]
-  },
-  'hf-football-jersey': {
-    name: 'HF Football Jersey',
-    priceNgn: '240,000',
-    priceUsd: '$160',
-    colors: ['Green', 'Red', 'Orange'],
-    sizes: ['S','M','L','XL','2XL','3XL'],
-    soldOut: [],
-    images: [
-      'https://images.unsplash.com/photo-1487222477894-8943e31ef7b2?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1503341504253-dff4815485f1?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1566206091558-7f218b696731?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?w=900&q=85&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=900&q=85&auto=format&fit=crop',
-    ]
-  },
 };
-
 /* DEFAULT fallback if no id in URL */
 const DEFAULT_ID = 'hf-disciples-classic-tee';
 
@@ -929,7 +1115,6 @@ function loadProduct() {
   const id      = getParam('id') || DEFAULT_ID;
   const product = PRODUCTS[id] || PRODUCTS[DEFAULT_ID];
 
-  /* page title */
   document.title = product.name + ' — StayWoke';
   document.getElementById('pageTitle').textContent = product.name + ' — StayWoke';
   document.getElementById('bcProduct').textContent  = product.name;
@@ -937,7 +1122,6 @@ function loadProduct() {
   document.getElementById('priceNgn').textContent   = product.priceNgn;
   document.getElementById('priceUsd').textContent   = product.priceUsd;
 
-  /* images */
   const mainImg  = document.getElementById('mainImg');
   const strip    = document.getElementById('thumbStrip');
   const counter  = document.getElementById('imgCurrent');
@@ -959,7 +1143,28 @@ function loadProduct() {
     strip.appendChild(div);
   });
 
-  /* colors */
+const relatedGrid = document.getElementById('relatedGrid');
+const allIds      = Object.keys(PRODUCTS).filter(k => k !== id);
+const shuffled    = allIds.sort(() => 0.5 - Math.random()).slice(0, 4);
+
+relatedGrid.innerHTML = '';
+shuffled.forEach(rid => {
+  const rp = PRODUCTS[rid];
+  const card = document.createElement('div');
+  card.className = 'related-card';
+  card.innerHTML = `
+    <a href="product.html?id=${rid}">
+      <div class="related-card-img">
+        <img src="${rp.images[0]}" alt="${rp.name}" loading="lazy"/>
+      </div>
+    </a>
+    <div class="related-card-name">${rp.name}</div>
+    <div class="related-card-price"><span class="sym">₦</span>${rp.priceNgn}</div>
+    <a href="product.html?id=${rid}" class="related-view">View</a>
+  `;
+  relatedGrid.appendChild(card);
+});
+
   const colorSwatches  = document.getElementById('colorSwatches');
   const selectedColor  = document.getElementById('selectedColor');
   colorSwatches.innerHTML = '';
@@ -979,7 +1184,6 @@ function loadProduct() {
     colorSwatches.appendChild(btn);
   });
 
-  /* sizes */
   const sizeGrid    = document.getElementById('sizeGrid');
   const selectedSize = document.getElementById('selectedSize');
   sizeGrid.innerHTML = '';
@@ -1001,30 +1205,42 @@ function loadProduct() {
     sizeGrid.appendChild(btn);
   });
 
-  /* hide color block if only one color */
   if (product.colors.length <= 1) {
     document.getElementById('colorBlock').style.display = 'none';
   }
 }
 
-/* ═══════════════════════════════════════
-   ADD TO CART
-═══════════════════════════════════════ */
-document.getElementById('atcBtn').addEventListener('click', function() {
-  const size  = document.getElementById('selectedSize').textContent;
-  const color = document.getElementById('selectedColor').textContent;
-  if (size === '—') { alert('Please select a size.'); return; }
-  this.textContent = 'Added to Cart ✓';
-  this.classList.add('added');
-  setTimeout(() => {
-    this.textContent = 'Add to Cart';
-    this.classList.remove('added');
-  }, 2500);
+let qty = 1;
+const qtyNum     = document.getElementById('qtyNum');
+const selectedQty = document.getElementById('selectedQty');
+
+document.getElementById('qtyMinus').addEventListener('click', () => {
+  if (qty <= 1) return;
+  qty--;
+  qtyNum.textContent     = qty;
+  selectedQty.textContent = qty;
 });
 
-/* ═══════════════════════════════════════
-   ACCORDIONS
-═══════════════════════════════════════ */
+document.getElementById('qtyPlus').addEventListener('click', () => {
+  qty++;
+  qtyNum.textContent     = qty;
+  selectedQty.textContent = qty;
+});
+
+document.getElementById('atcBtn').addEventListener('click', function() {
+  const size     = document.getElementById('selectedSize').textContent;
+  const color    = document.getElementById('selectedColor').textContent;
+  const product  = document.getElementById('productTitle').textContent;
+  const price    = document.getElementById('priceNgn').textContent;
+
+  if (size === '—') { alert('Please select a size.'); return; }
+
+  const message = `Hi! I'd like to buy *${qty}x ${product}* in *${color}*, Size *${size}* (₦${price} each). Can I also add more items to my order?`;
+  const encoded = encodeURIComponent(message);
+
+  window.open(`https://wa.me/2349120211548?text=${encoded}`, '_blank');
+});
+
 document.querySelectorAll('.accordion-trigger').forEach(btn => {
   btn.addEventListener('click', () => {
     const body = document.getElementById('acc-' + btn.dataset.acc);
@@ -1041,9 +1257,6 @@ document.querySelectorAll('.faq-trigger').forEach(btn => {
   });
 });
 
-/* ═══════════════════════════════════════
-   CURSOR
-═══════════════════════════════════════ */
 const cursor = document.getElementById('cursor');
 document.addEventListener('mousemove', e => {
   cursor.style.left = e.clientX + 'px';
@@ -1054,11 +1267,9 @@ document.querySelectorAll('a,button,.thumb,.color-swatch,.size-btn').forEach(el 
   el.addEventListener('mouseleave', () => cursor.classList.remove('hov'));
 });
 
-/* NAV */
 const nav = document.getElementById('mainNav');
 window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 10));
 
-/* Mobile menu */
 const hamburger = document.getElementById('hamburgerBtn');
 const mobMenu   = document.getElementById('mobMenu');
 hamburger.addEventListener('click', () => {
@@ -1072,14 +1283,140 @@ function closeMob() {
   document.body.style.overflow = '';
 }
 
-/* Copy link */
 function copyLink() {
   navigator.clipboard.writeText(window.location.href).then(() => alert('Link copied!'));
 }
 
 
-/* INIT */
 loadProduct();
+
+
+let orderItems = [];
+
+function openDrawer() {
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  buildDrawerGrid();
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function buildDrawerGrid() {
+  const grid    = document.getElementById('drawerGrid');
+  const current = getParam('id') || DEFAULT_ID;
+  grid.innerHTML = '';
+
+  Object.keys(PRODUCTS).forEach(pid => {
+    if (pid === current) return; /* skip current product */
+    const p = PRODUCTS[pid];
+    let pickedSize = null;
+
+    const card = document.createElement('div');
+    card.className = 'drawer-card';
+    card.innerHTML = `
+      <div class="drawer-card-img">
+        <img src="${p.images[0]}" alt="${p.name}" loading="lazy"/>
+      </div>
+      <div class="drawer-card-name">${p.name}</div>
+      <div class="drawer-card-price"><span class="sym">₦</span>${p.priceNgn}</div>
+      <div class="drawer-sizes">
+        ${p.sizes.map(s => `<button class="drawer-size" data-size="${s}">${s}</button>`).join('')}
+      </div>
+      <button class="drawer-add-btn">+ Add to Order</button>
+    `;
+
+    card.querySelectorAll('.drawer-size').forEach(btn => {
+      btn.addEventListener('click', () => {
+        card.querySelectorAll('.drawer-size').forEach(b => b.classList.remove('picked'));
+        btn.classList.add('picked');
+        pickedSize = btn.dataset.size;
+        card.querySelector('.drawer-add-btn').classList.add('show');
+      });
+    });
+
+    card.querySelector('.drawer-add-btn').addEventListener('click', () => {
+      if (!pickedSize) return;
+      orderItems.push({
+        id: pid,
+        name: p.name,
+        size: pickedSize,
+        price: p.priceNgn,
+        priceRaw: parseInt(p.priceNgn.replace(/,/g,''))
+      });
+      updateDrawerFooter();
+
+      card.querySelectorAll('.drawer-size').forEach(b => b.classList.remove('picked'));
+      card.querySelector('.drawer-add-btn').classList.remove('show');
+      pickedSize = null;
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+function updateDrawerFooter() {
+  const footer = document.getElementById('drawerFooter');
+  const list   = document.getElementById('drawerOrderList');
+  const total  = document.getElementById('drawerTotal');
+
+  if (orderItems.length === 0) {
+    footer.style.display = 'none';
+    return;
+  }
+
+  footer.style.display = 'block';
+  list.innerHTML = '';
+
+  let totalPrice = 0;
+  orderItems.forEach((item, i) => {
+    totalPrice += item.priceRaw;
+    const row = document.createElement('div');
+    row.className = 'drawer-order-item';
+    row.innerHTML = `
+      <span>${item.name} — ${item.size}</span>
+      <span style="display:flex;align-items:center;gap:8px;">
+        ₦${item.price}
+        <button class="remove-item" onclick="removeItem(${i})">×</button>
+      </span>
+    `;
+    list.appendChild(row);
+  });
+
+  total.innerHTML = `₦${totalPrice.toLocaleString()}`;
+}
+
+function removeItem(index) {
+  orderItems.splice(index, 1);
+  updateDrawerFooter();
+}
+
+document.getElementById('drawerSendBtn').addEventListener('click', () => {
+  const mainProduct = document.getElementById('productTitle').textContent;
+  const mainSize    = document.getElementById('selectedSize').textContent;
+  const mainColor   = document.getElementById('selectedColor').textContent;
+  const mainPrice   = document.getElementById('priceNgn').textContent;
+  const mainQty     = qty || 1;
+
+  let message = `Hi! I'd like to place an order:\n\n`;
+  message += `*${mainQty}x ${mainProduct}* — ${mainColor}, Size ${mainSize} (₦${mainPrice})\n`;
+
+  orderItems.forEach(item => {
+    message += `*1x ${item.name}* — Size ${item.size} (₦${item.price})\n`;
+  });
+
+  const mainRaw   = parseInt(mainPrice.replace(/,/g,'')) * mainQty;
+  const extraRaw  = orderItems.reduce((sum, i) => sum + i.priceRaw, 0);
+  const grandTotal = (mainRaw + extraRaw).toLocaleString();
+
+  message += `\n*Total: ₦${grandTotal}*`;
+
+  window.open(`https://wa.me/2348000000000?text=${encodeURIComponent(message)}`, '_blank');
+});
 </script>
 </body>
 </html>
