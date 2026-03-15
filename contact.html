@@ -793,10 +793,18 @@
     formData.append('comment', comment);
 
     const response = await fetch('https://formspree.io/f/mwvrnvlp', {
-      method: 'POST',
-      body: formData
-    });
-
+  method: 'POST',
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({ 
+    name: name, 
+    email: email, 
+    phone: phone, 
+    message: comment 
+  })
+});
     if (response.ok) {
       document.getElementById('contactFormArea').style.display = 'none';
       document.getElementById('successMsg').style.display = 'block';
