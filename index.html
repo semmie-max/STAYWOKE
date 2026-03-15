@@ -111,7 +111,7 @@
     .drop-chevron { width:8px; height:8px; opacity:.4; transition:transform .3s; }
     .has-drop:hover .drop-chevron { transform:rotate(180deg); }
     .dropdown {
-      position:absolute; top:calc(100% + 22px); left:0%;
+      position:absolute; top:calc(100% + 0px); left:0%;
       transform: translateX(0) translateY(8px);
       background:rgba(10,10,10,.98);
       border:1px solid var(--mid);
@@ -325,8 +325,7 @@
     }
     @keyframes spulse { 0%{top:-100%} 100%{top:100%} }
     @keyframes fadeUp {
-      from{opacity:0;
-      transform:translateX(-50%) translateY(12px)}
+      from{opacity:0;transform:translateX(-50%) translateY(12px)}
       to{opacity:1;transform:translateX(-50%) translateY(0)}
     }
 
@@ -751,14 +750,14 @@
 
 <div class="cursor" id="cursor"></div>
 
-<!-- ── ANNOUNCEMENT BAR ── -->
+
 <div class="ann-bar">
   <span class="ann-track">
-    New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦300,000 &nbsp;·&nbsp; Ekiti / Lagos . Nigeria &nbsp;·&nbsp; Mon–Sat: 10am–8pm &nbsp;·&nbsp; Sunday: 12pm–8pm &nbsp;·&nbsp; New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦200,000 &nbsp;·&nbsp;
+    New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦200,000 &nbsp;·&nbsp; Ekiti / Lagos . Nigeria &nbsp;·&nbsp; Mon–Sun: 24hrs &nbsp;·&nbsp; New Collection Now Available &nbsp;·&nbsp; Free Delivery on Orders Above ₦200,000 &nbsp;·&nbsp;
   </span>
 </div>
 
-<!-- ── NAVIGATION ── -->
+
 <nav id="mainNav">
   <div class="nav-links">
     <a href="#">Home</a>
@@ -787,10 +786,9 @@
     <a href="contact.html">Contact</a>
   </div>
 
-  <!-- CENTER LOGO -->
+  
   <div class="nav-logo">
     <a href="#">
-      <!-- SVG crown/star logo mark -->
       <img src="images/logo.jpg" class="logo-img" alt="STAYWOKE"/>
       <div class="logo-text-wrap">
         <span class="logo-main">STAYWOKE</span>
@@ -805,7 +803,6 @@
   </div>
 </nav>
 
-<!-- ── MOBILE MENU ── -->
 <div class="mob-overlay" id="mobMenu">
   <a href="#" onclick="closeMob()">Home</a>
   <a href="shop.html" onclick="closeMob()">Shop</a>
@@ -897,7 +894,7 @@
 
       <div class="product-card">
         <div class="product-img-wrap">
-          <img src="images/blacktee.jpg" alt="HF Dominion Tracksuit Pants" loading="lazy"/>
+          <img src="images/blacktee.jpg" alt="shortsleeve polo" loading="lazy"/>
           <div class="quick-view">Quick View</div>
         </div>
         <div class="product-info">
@@ -909,7 +906,7 @@
 
       <div class="product-card">
         <div class="product-img-wrap">
-          <img src="images/tank.jpg" alt="HF Checkered Tee" loading="lazy"/>
+          <img src="images/tank.jpg" alt="ST tank top" loading="lazy"/>
           <div class="quick-view">Quick View</div>
         </div>
         <div class="product-info">
@@ -934,14 +931,16 @@
   <span class="marquee-inner">
     <span>New Releases</span><span class="dot">✦</span>
     <span>STAYWOKE</span><span class="dot">✦</span>
-    <span>New Collection</span><span class="dot">✦</span>
+    <span>New Collections</span><span class="dot">✦</span>
     <span>Lagos / Ekiti, Nigeria</span><span class="dot">✦</span>
     <span>Exclusive Pieces</span><span class="dot">✦</span>
+    <span>Cop Yours Now!!</span><span class="dot">✦</span>
     <span>New Releases</span><span class="dot">✦</span>
     <span>STAYWOKE</span><span class="dot">✦</span>
-    <span>New Collection</span><span class="dot">✦</span>
+    <span>New Collections</span><span class="dot">✦</span>
     <span>Lagos / Ekiti, Nigeria</span><span class="dot">✦</span>
     <span>Exclusive Pieces</span><span class="dot">✦</span>
+    <span>Cop Yours Now!!</span><span class="dot">✦</span>
   </span>
 </div>
 
@@ -979,8 +978,8 @@
       <div class="product-card">
   <div class="product-img-wrap">
     <div class="card-slides">
-      <img src="images/whitetee.jpg" alt="HF Croc Leather Top" class="card-slide active" loading="lazy"/>
-      <img src="images/girl.jpg" alt="HF Croc Leather Top" class="card-slide" loading="lazy"/>
+      <img src="images/whitetee.jpg" alt="ST No days off tees" class="card-slide active" loading="lazy"/>
+      <img src="images/girl.jpg" alt="ST No days off tees" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -998,9 +997,9 @@
       <div class="product-card">
   <div class="product-img-wrap">
     <div class="card-slides">
-      <img src="images/blacktee.jpg" alt="HF Longsleeve Polo" class="card-slide active" loading="lazy"/>
-      <img src="images/weird.jpg" alt="HF Longsleeve Polo" class="card-slide" loading="lazy"/>
-      <img src="images/fng.jpg" alt="HF Longsleeve Polo" class="card-slide" loading="lazy"/>
+      <img src="images/blacktee.jpg" alt="shortsleeve Polo" class="card-slide active" loading="lazy"/>
+      <img src="images/weird.jpg" alt="shortsleeve Polo" class="card-slide" loading="lazy"/>
+      <img src="images/fng.jpg" alt="shortsleeve Polo" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -1119,8 +1118,9 @@
   </svg>
   <span>Chat with us</span>
 </a>
+
 <script>
-  /* Cursor */
+ 
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
@@ -1131,7 +1131,6 @@
     el.addEventListener('mouseleave', () => cursor.classList.remove('hov'));
   });
 
-  /* Nav */
   const nav = document.getElementById('mainNav');
   const annH = document.querySelector('.ann-bar').offsetHeight;
   nav.style.top = annH + 'px';
@@ -1139,7 +1138,6 @@
     nav.classList.toggle('stuck', window.scrollY > 10);
   });
 
-  /* Mobile menu */
   const hamburger = document.getElementById('hamburgerBtn');
   const mobMenu   = document.getElementById('mobMenu');
   hamburger.addEventListener('click', () => {
@@ -1153,7 +1151,6 @@
     document.body.style.overflow = '';
   }
 
-  /* Slider */
   const slides = document.querySelectorAll('.slide');
   const dots   = document.querySelectorAll('.h-dot');
   const numEl  = document.getElementById('curNum');
@@ -1174,7 +1171,6 @@
   document.getElementById('prevSlide').addEventListener('click', () => { goTo(cur - 1); resetTimer(); });
   dots.forEach(d => d.addEventListener('click', () => { goTo(+d.dataset.i); resetTimer(); }));
 
-  /* Swipe */
   let tx = 0;
   const heroEl = document.getElementById('hero');
   heroEl.addEventListener('touchstart', e => { tx = e.changedTouches[0].screenX; }, {passive:true});
@@ -1185,7 +1181,6 @@
 
   startTimer();
 
-  /* Newsletter button */
   document.querySelector('.newsletter-form button').addEventListener('click', function() {
     const inp = this.previousElementSibling;
     if (inp.value && inp.value.includes('@')) {
@@ -1224,6 +1219,7 @@
     if (!e.target.closest('.quick-view')) goTo(cur + 1);
   });
 });
+
 </script>
 
 </body>
