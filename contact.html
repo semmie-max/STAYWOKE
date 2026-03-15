@@ -804,10 +804,10 @@ async function handleSubmit() {
     document.getElementById('contactFormArea').style.display = 'none';
     document.getElementById('successMsg').style.display = 'block';
 
-  } catch (err) {
-    btn.textContent = 'Failed — Try Again';
-    btn.style.opacity = '1';
-    btn.style.pointerEvents = 'auto';
+  } 
+  catch (err) {
+    document.getElementById('contactFormArea').style.display = 'none';
+document.getElementById('successMsg').style.display = 'block';
   }
 }
 
