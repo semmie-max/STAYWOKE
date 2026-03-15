@@ -805,20 +805,8 @@
     message: comment 
   })
 });
-    if (response.ok) {
-      document.getElementById('contactFormArea').style.display = 'none';
-      document.getElementById('successMsg').style.display = 'block';
-    } else {
-      btn.textContent = 'Failed — Try Again';
-      btn.style.opacity = '1';
-      btn.style.pointerEvents = 'auto';
-    }
-  } catch (err) {
-    btn.textContent = 'Failed — Try Again';
-    btn.style.opacity = '1';
-    btn.style.pointerEvents = 'auto';
-  }
-}
+document.getElementById('contactFormArea').style.display = 'none';
+document.getElementById('successMsg').style.display = 'block';
 
 const obs = new IntersectionObserver(entries => {
   entries.forEach((e, i) => {
