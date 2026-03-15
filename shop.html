@@ -28,8 +28,6 @@
     }
     a { text-decoration:none; color:inherit; }
     img { display:block; width:100%; }
-
-    /*── CURSOR ──*/
     .cursor {
       width:10px; height:10px; background:var(--white);
       border-radius:50%; position:fixed; pointer-events:none;
@@ -90,7 +88,7 @@
     .drop-chevron { width:8px; height:8px; opacity:.4; transition:transform .3s; }
     .has-drop:hover .drop-chevron { transform:rotate(180deg); }
     .dropdown {
-      position:absolute; top:calc(100% + 22px); left:50%;
+      position:absolute; top:calc(100% + 0px); left:50%;
       transform:translateX(-50%) translateY(8px);
       background:rgba(10,10,10,.98); border:1px solid var(--mid);
       min-width:500px; padding:28px 32px;
@@ -98,7 +96,7 @@
       opacity:0; pointer-events:none;
       transition:opacity .3s,transform .3s; backdrop-filter:blur(20px);
     }
-    .has-drop:hover .dropdown { opacity:1; pointer-events:all; transform:translateX(-50%) translateY(0); }
+    .has-drop:hover .dropdown { opacity:1; pointer-events:all; transform: translateX(0) translateY(0); }
     .drop-col h4 {
       font-size:8px; 
       letter-spacing:3px; 
@@ -181,10 +179,8 @@
       .hamburger { display:flex; }
     }
 
-    /*── PAGE SPACER ──*/
     .page-top { height:calc(var(--ann-h) + var(--nav-h)); }
 
-    /*── COLLECTION HEADER ──*/
     .collection-header {
       padding:clamp(28px,4vw,48px) clamp(16px,4vw,52px) 0;
       border-bottom:1px solid var(--mid);
@@ -203,11 +199,10 @@
       color:var(--grey); font-weight:400;
     }
 
-    /*── FILTER BAR ──*/
     .filter-bar {
       display:flex; align-items:center; gap:0;
       border-top:1px solid var(--mid);
-      overflow:hidden;
+      overflow: visible;
     }
     .filter-pill {
       display:flex; align-items:center; gap:8px;
@@ -227,8 +222,6 @@
       font-size:7px; font-weight:700; padding:2px 5px;
       border-radius:2px; letter-spacing:0;
     }
-
-    /* filter dropdowns */
     .filter-dropdown {
       position:absolute; top:100%; left:0;
       min-width:260px; background:rgba(12,12,12,.98);
@@ -238,7 +231,11 @@
       transition:opacity .25s,transform .25s;
       backdrop-filter:blur(20px);
     }
-    .filter-pill.open .filter-dropdown { opacity:1; pointer-events:all; transform:translateY(0); }
+    .filter-pill.open .filter-dropdown { 
+      opacity:1; 
+      pointer-events:all; 
+      transform:translateY(0); 
+    }
 
     .filter-dropdown label {
       display:flex; align-items:center; gap:10px;
@@ -252,7 +249,6 @@
       width:12px; height:12px; accent-color:var(--gold); cursor:pointer; flex-shrink:0;
     }
 
-    /* price filter */
     .price-filter-inner { padding:4px 0; }
     .price-row {
       display:flex; justify-content:space-between;
@@ -284,7 +280,6 @@
       border-radius:50%; border:none; pointer-events:all; cursor:pointer;
     }
 
-    /* sort */
     .sort-select {
       margin-left:auto;
       background:transparent; border:none; border-left:1px solid var(--mid);
@@ -296,7 +291,6 @@
     .sort-select:hover { color:var(--white); }
     .sort-select option { background:var(--black); }
 
-    /* active filter tags */
     .active-tags {
       display:flex; flex-wrap:wrap; gap:8px;
       padding:12px clamp(16px,4vw,52px);
@@ -319,7 +313,6 @@
     }
     .clear-all-btn:hover { color:var(--white); }
 
-    /*── PRODUCT GRID ──*/
     .shop-wrap { padding:0 clamp(12px,3vw,40px) clamp(48px,6vw,80px); }
 
     .result-bar {
@@ -336,7 +329,6 @@
     @media(max-width:1100px){ .products-grid{grid-template-columns:repeat(3,1fr);} }
     @media(max-width:720px) { .products-grid{grid-template-columns:repeat(2,1fr); gap:10px;} }
 
-    /*── PRODUCT CARD ──*/
     .product-card {
       cursor:none;
       opacity:0; transform:translateY(16px);
@@ -355,7 +347,6 @@
     }
     .product-card:hover .card-img img { transform:scale(1.06); }
 
-    /* quick view overlay */
     .quick-view {
       position:absolute; bottom:0; left:0; right:0;
       background:rgba(10,10,10,.88); text-align:center;
@@ -366,7 +357,6 @@
     }
     .product-card:hover .quick-view { opacity:1; transform:translateY(0); }
 
-    /* wishlist */
     .wish-btn {
       position:absolute; top:10px; right:10px;
       width:28px; height:28px;
@@ -410,7 +400,6 @@
       color:var(--grey); margin-left:2px;
     }
 
-    /*── LOAD MORE ──*/
     .load-more-wrap {
       text-align:center; padding:clamp(32px,4vw,56px) 0;
       border-top:1px solid var(--mid); margin-top:8px;
@@ -426,7 +415,6 @@
     .btn-load-more:hover { background:var(--gold); border-color:var(--gold); color:var(--black); }
     .btn-load-more.loading { opacity:.5; pointer-events:none; }
 
-    /*── NO RESULTS ──*/
     .no-results {
       grid-column:1/-1; text-align:center; padding:80px 24px; display:none;
     }
@@ -447,7 +435,6 @@
     }
     .no-results button:hover { background:var(--gold); border-color:var(--gold); color:var(--black); }
 
-    /*── NEWSLETTER ──*/
     .newsletter {
       background:#0f0f0f; border-top:1px solid var(--mid);
       padding:clamp(48px,7vw,80px) clamp(16px,6vw,80px); text-align:center;
@@ -487,7 +474,6 @@
       .nform input { border-right:1px solid var(--mid); border-bottom:none; }
     }
 
-    /*── FOOTER ──*/
     footer {
       background:var(--black); border-top:1px solid var(--mid);
       padding:clamp(48px,6vw,72px) clamp(16px,5vw,72px) 24px;
@@ -539,7 +525,6 @@
     .footer-bottom a { color:rgba(255,255,255,.3); transition:color .3s; }
     .footer-bottom a:hover { color:var(--gold); }
 
-    /* mobile filter bar responsive */
     @media(max-width:720px){
       .filter-bar { overflow-x:auto; -webkit-overflow-scrolling:touch; }
       .filter-pill { white-space:nowrap; flex-shrink:0; }
@@ -594,6 +579,9 @@
 }
 .view-btn:hover {
   background:var(--gold); border-color:var(--gold); color:var(--black);
+}
+.collection-header {
+  overflow: visible;
 }
   </style>
 </head>
@@ -664,17 +652,17 @@
     <h1>All <em>Products</em></h1>
     <span class="prod-total" id="prodTotal">9 Products</span>
   </div>
+
   <div class="filter-bar">
     <div class="filter-pill has-drop-filter" id="fpAvail">
-      Availability
+    Availability
       <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
-      <div class="filter-dropdown">
+    <div class="filter-dropdown">
         <label><input type="checkbox" id="inStock" checked/> In stock</label>
-        <label><input type="checkbox" id="outStock"/> Out of stock</label>
-      </div>
+      <label><input type="checkbox" id="outStock"/> Out of stock</label>
     </div>
+  </div>
 
-    <!-- Price -->
     <div class="filter-pill has-drop-filter" id="fpPrice">
       Price
       <svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 3.5l3 3 3-3"/></svg>
@@ -682,22 +670,21 @@
         <div class="price-filter-inner">
           <div class="price-row">
             <span>₦0</span>
-            <span id="priceMaxLabel">₦2,400,000</span>
+            <span id="priceMaxLabel">₦45,000</span>
           </div>
           <div class="price-inputs">
-            <input type="number" id="priceMin" placeholder="Min ₦" min="0" max="2400000" value="0"/>
-            <input type="number" id="priceMax" placeholder="Max ₦" min="0" max="2400000" value="2400000"/>
+            <input type="number" id="priceMin" placeholder="Min ₦" min="0" max="45000" value="0"/>
+            <input type="number" id="priceMax" placeholder="Max ₦" min="0" max="45000" value="45000"/>
           </div>
           <div class="range-wrap">
             <div class="range-fill" id="rangeFill" style="left:0%;right:0%"></div>
-            <input type="range" class="rslider" id="rMin" min="0" max="2400000" value="0" step="10000"/>
-            <input type="range" class="rslider" id="rMax" min="0" max="2400000" value="2400000" step="10000"/>
+            <input type="range" class="rslider" id="rMin" min="0" max="45000" value="0" step="10000"/>
+            <input type="range" class="rslider" id="rMax" min="0" max="45000" value="45000" step="10000"/>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Sort -->
     <select class="sort-select" id="sortSel">
       <option value="featured">Sort by: Featured</option>
       <option value="best">Best Selling</option>
@@ -721,11 +708,11 @@
 
   <div class="products-grid" id="productsGrid">
 
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
+    <div class="product-card" data-name="no days off tee" data-price="40000" data-colors="White">
   <div class="card-img">
     <div class="card-slides">
-      <img src="images/whitetee.jpg" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="images/girl.jpg" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
+      <img src="images/whitetee.jpg" alt="no days off tee" class="card-slide active" loading="lazy"/>
+      <img src="images/girl.jpg" alt="no days off tee" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -742,12 +729,12 @@
   </div>
 </div>
 
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
+    <div class="product-card" data-name="shortsleeve Polo (black)" data-price="35000" data-colors="Red,Black">
   <div class="card-img">
     <div class="card-slides">
-      <img src="images/blacktee.jpg" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="images/weird.jpg" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="images/fng.jpg" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
+      <img src="images/blacktee.jpg" alt="shortsleeve Polo (black)" class="card-slide active" loading="lazy"/>
+      <img src="images/weird.jpg" alt="shortsleeve Polo (black)" class="card-slide" loading="lazy"/>
+      <img src="images/fng.jpg" alt="shortsleeve Polo (black)" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -760,7 +747,7 @@
   <div class="card-info">
     <div class="card-name">shortsleeve Polo (black)</div>
     <div class="card-price"><span class="sym">₦</span>35,000</div>
-    <div class="card-price">$ 26</div>
+    <div class="card-price"><span class="sym">$</span> 26</div>
     <div class="card-colors">
       <div class="c-dot" style="background:#d40707"></div>
       <div class="c-dot" style="background:#000"></div>
@@ -770,7 +757,7 @@
   </div>
 </div>
 
-    <div class="product-card" data-name="Tank Top" data-price="1600000" data-colors="Black">
+    <div class="product-card" data-name="Tank Top" data-price="20000" data-colors="Black">
   <div class="card-img">
     <div class="card-slides">
       <img src="images/tank.jpg" alt="Tank Top" class="card-slide active" loading="lazy"/>
@@ -785,8 +772,8 @@
   </div>
   <div class="card-info">
     <div class="card-name">ST Tank Tops</div>
-    <div class="card-price"><span class="sym">₦</span>17,000</div>
-    <div class="card-price-usd">$  20</div>
+    <div class="card-price"><span class="sym">₦</span>20,000</div>
+    <div class="card-price-usd">$  17</div>
     <div class="card-colors">
       <div class="c-dot" style="background:#111"></div>
       <span class="c-label">Available in 2 designs</span>
@@ -796,11 +783,11 @@
 </div>
 
 
-    <div class="product-card" data-name="Tank Top" data-price="1600000" data-colors="Black">
+    <div class="product-card" data-name="ST black tee" data-price="40000" data-colors="Black">
   <div class="card-img">
     <div class="card-slides">
-      <img src="images/brown.jpg" alt="Tank Top" class="card-slide active" loading="lazy"/>
-      <img src="images/backofbrown.jpg" alt="Tank Top" class="card-slide" loading="lazy"/>
+      <img src="images/brown.jpg" alt="ST black tee" class="card-slide active" loading="lazy"/>
+      <img src="images/backofbrown.jpg" alt="ST black tee" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -810,18 +797,18 @@
     <div class="quick-view">Quick View</div>
   </div>
   <div class="card-info">
-    <div class="card-name">ST Tank Tops</div>
+    <div class="card-name">ST black tee</div>
     <div class="card-price"><span class="sym">₦</span>40,000</div>
     <div class="card-price-usd">$  30</div>
-    <a href="product.html?id=tank-top" class="view-btn">View</a>
+    <a href="product.html?id=ST black tee" class="view-btn">View</a>
   </div>
 </div>
 
-<div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
+<div class="product-card" data-name="st white tee" data-price="40000" data-colors="Yellow,Black">
   <div class="card-img">
     <div class="card-slides">
-      <img src="images/blue.jpg" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="images/blueback.jpg" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
+      <img src="images/blue.jpg" alt="st white tee" class="card-slide active" loading="lazy"/>
+      <img src="images/blueback.jpg" alt="st white tee" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -833,20 +820,20 @@
   <div class="card-info">
     <div class="card-name">st white tee</div>
     <div class="card-price"><span class="sym">₦</span>40,000</div>
-    <div class="card-price-usd">$  30</div>
+    <div class="card-price-usd">$ 30</div>
     <div class="card-colors">
       <div class="c-dot" style="background:#fff"></div>
       <span class="c-label">New product</span>
     </div>
-    <a href="product.html?id=tank-top" class="view-btn">View</a>
+    <a href="product.html?id=st white tee" class="view-btn">View</a>
   </div>
 </div>
 
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
+    <div class="product-card" data-name="ST Blackred Tee" data-price="40000" data-colors="Black">
   <div class="card-img">
     <div class="card-slides">
-      <img src="images/red.jpg" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="images/redback.jpg" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
+      <img src="images/red.jpg" alt="ST Blackred Tee" class="card-slide active" loading="lazy"/>
+      <img src="images/redback.jpg" alt="ST Blackred Tee" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -856,23 +843,49 @@
     <div class="quick-view">Quick View</div>
   </div>
   <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
+    <div class="card-name">ST Blackred Tee </div>
+    <div class="card-price"><span class="sym">₦</span>40,000</div>
+    <div class="card-price-usd">$ 30</div>
     <div class="card-colors">
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in black</span>
+      <div class="c-dot" style="background:#fff"></div>
+      <span class="c-label">New product</span>
     </div>
-    <a href="product.html?id=tank-top" class="view-btn">View</a>
+    <a href="product.html?id=ST Blackred Tee " class="view-btn">View</a>
   </div>
 </div>
 
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
+    <div class="product-card" data-name="ST Female Wear" data-price="1600000" data-colors="Yellow,Black">
   <div class="card-img">
     <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
+      <img src="images/wine.jpg" alt="ST white2tee" class="card-slide active" loading="lazy"/>
+      <img src="images/wineback.jpg" alt="ST white2tee" class="card-slide" loading="lazy"/>
+      
+    </div>
+    <div class="card-slide-dots">
+      <span class="sd active"></span>
+      <span class="sd"></span>
+    </div>
+    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+    <div class="quick-view">Quick View</div>
+  </div>
+  <div class="card-info">
+    <div class="card-name">ST white2tee</div>
+    <div class="card-price"><span class="sym">₦</span>40,000</div>
+    <div class="card-price-usd">$ 30</div>
+    <div class="card-colors">
+      <div class="c-dot" style="background:#fff"></div>
+      <span class="c-label">New Product</span>
+    </div>
+    <a href="product.html?id=ST white2tee" class="view-btn">View</a>
+  </div>
+</div>
+
+    <div class="product-card" data-name="ST Trucker Hat" data-price="1600000" data-colors="Yellow,Black">
+  <div class="card-img">
+    <div class="card-slides">
+      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="ST Trucker Hat" class="card-slide active" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="ST Trucker Hat" class="card-slide" loading="lazy"/>
+      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="ST Trucker Hat" class="card-slide" loading="lazy"/>
     </div>
     <div class="card-slide-dots">
       <span class="sd active"></span>
@@ -883,347 +896,17 @@
     <div class="quick-view">Quick View</div>
   </div>
   <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
+    <div class="card-name">ST Trucker Hat</div>
     <div class="card-price"><span class="sym">₦</span>1,600,000</div>
     <div class="card-price-usd">$1,065</div>
     <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
+      <div class="c-dot" style="background:#b33c5f"></div>
+      <div class="c-dot" style="background:#5c76ec"></div>
       <span class="c-label">Available in 2 colors</span>
     </div>
+    <a href="product.html?id=ST Trucker Hat" class="view-btn">View</a>
   </div>
-</div>
-
-    <div class="product-card" data-name="HF Faded Camo Jorts" data-price="560000" data-colors="Green,Brown">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Faded Camo Jorts" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Faded Camo Jorts</div>
-        <div class="card-price"><span class="sym">₦</span>560,000</div>
-        <div class="card-price-usd">$375</div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
   </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Recycled Camo Hat" data-price="368000" data-colors="Green,Brown">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1521369909029-2afed882baee?w=600&q=80&auto=format&fit=crop" alt="HF Recycled Camo Hat" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Recycled Camo Hat</div>
-        <div class="card-price"><span class="sym">₦</span>368,000</div>
-        <div class="card-price-usd">$245</div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Thermal Heat Shirt" data-price="320000" data-colors="Black">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&q=80&auto=format&fit=crop" alt="HF Thermal Heat Shirt" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Thermal Heat Shirt</div>
-        <div class="card-price"><span class="sym">₦</span>320,000</div>
-        <div class="card-price-usd">$210</div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Thermal Heat Short" data-price="240000" data-colors="Black">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1609873814058-a8928924184a?w=600&q=80&auto=format&fit=crop" alt="HF Thermal Heat Short" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Thermal Heat Short</div>
-        <div class="card-price"><span class="sym">₦</span>240,000</div>
-        <div class="card-price-usd">$160</div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
-
-    <div class="product-card" data-name="HF Summer Scorch" data-price="400000" data-colors="White,Black">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=600&q=80&auto=format&fit=crop" alt="HF Summer Scorch" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Summer Scorch</div>
-        <div class="card-price"><span class="sym">₦</span>400,000</div>
-        <div class="card-price-usd">$265</div>
-        <div class="card-colors">
-          <div class="c-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.5)"></div>
-          <div class="c-dot" style="background:#111"></div>
-          <span class="c-label">Available in 2 colors</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Summer Scorch Print" data-price="320000" data-colors="White,Black">
-      <div class="card-img">
-        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80&auto=format&fit=crop" alt="HF Summer Scorch Print" loading="lazy"/>
-        <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-        <div class="quick-view">Quick View</div>
-      </div>
-      <div class="card-info">
-        <div class="card-name">HF Summer Scorch Print</div>
-        <div class="card-price"><span class="sym">₦</span>320,000</div>
-        <div class="card-price-usd">$210</div>
-        <div class="card-colors">
-          <div class="c-dot" style="background:#f5f5f5;border-color:rgba(255,255,255,.5)"></div>
-          <div class="c-dot" style="background:#111"></div>
-          <span class="c-label">Available in 2 colors</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
-  <div class="card-img">
-    <div class="card-slides">
-      <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide active" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1548883354-94bcfe321cbb?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-      <img src="https://images.unsplash.com/photo-1566206091558-7f218b696731?w=600&q=80&auto=format&fit=crop" alt="HF Embossed Leather Jacket" class="card-slide" loading="lazy"/>
-    </div>
-    <div class="card-slide-dots">
-      <span class="sd active"></span>
-      <span class="sd"></span>
-      <span class="sd"></span>
-    </div>
-    <button class="wish-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
-    <div class="quick-view">Quick View</div>
-  </div>
-  <div class="card-info">
-    <div class="card-name">HF Embossed Leather Jacket</div>
-    <div class="card-price"><span class="sym">₦</span>1,600,000</div>
-    <div class="card-price-usd">$1,065</div>
-    <div class="card-colors">
-      <div class="c-dot" style="background:#f1c40f"></div>
-      <div class="c-dot" style="background:#111"></div>
-      <span class="c-label">Available in 2 colors</span>
-    </div>
-  </div>
-</div>
 
     <div class="product-card" data-name="HF Embossed Leather Jacket" data-price="1600000" data-colors="Yellow,Black">
   <div class="card-img">
@@ -1258,16 +941,14 @@
       <button onclick="clearAllFilters()">Clear Filters</button>
     </div>
 
-  </div><!-- end grid -->
+  </div>
 
-  <!-- LOAD MORE -->
   <div class="load-more-wrap" id="loadMoreWrap">
     <button class="btn-load-more" id="loadMoreBtn">Load More</button>
   </div>
 
-</div><!-- end shop-wrap -->
+</div>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div class="footer-brand">
@@ -1297,8 +978,8 @@
     </div>
     <div class="footer-col">
       <h5>Shop</h5>
-      <a href="shop.html">Shop All</a><a href="#">Men</a>
-      <a href="shop.html">Women</a><a href="shop.html">Accessories</a><a href="#">New In</a>
+      <a href="shop.html">Shop All</a><a href="shop.html">Men</a>
+      <a href="shop.html">Women</a><a href="shop.html">Accessories</a><a href="shop.html">New In</a>
     </div>
     <div class="footer-col">
       <h5>Visit Us</h5>
@@ -1315,7 +996,7 @@
 </footer>
 
 <script>
-  /*── Cursor ──*/
+  
   const cursor = document.getElementById('cursor');
   document.addEventListener('mousemove', e => {
     cursor.style.left = e.clientX + 'px';
@@ -1326,11 +1007,9 @@
     el.addEventListener('mouseleave', () => cursor.classList.remove('hov'));
   });
 
-  /*── Nav scroll ──*/
   const nav = document.getElementById('mainNav');
   window.addEventListener('scroll', () => nav.classList.toggle('stuck', window.scrollY > 10));
 
-  /*── Mobile menu ──*/
   const hamburger = document.getElementById('hamburgerBtn');
   const mobMenu   = document.getElementById('mobMenu');
   hamburger.addEventListener('click', () => {
@@ -1343,7 +1022,6 @@
     document.body.style.overflow = '';
   }
 
-  /*── Filter pill open/close ──*/
   document.querySelectorAll('.has-drop-filter').forEach(pill => {
     pill.addEventListener('click', e => {
       e.stopPropagation();
@@ -1359,12 +1037,11 @@
     d.addEventListener('click', e => e.stopPropagation());
   });
 
-  /*── All cards ──*/
   const allCards = Array.from(document.querySelectorAll('.product-card[data-name]'));
-  const BATCH    = 24; // show all 24 initially then load more would reveal rest
-  let   shown    = allCards.length; // we show all for now
+  const BATCH    = 9;
+  let   shown    = allCards.length;
 
-  /*── Price range dual slider ──*/
+
   const rMin = document.getElementById('rMin');
   const rMax = document.getElementById('rMax');
   const fill = document.getElementById('rangeFill');
